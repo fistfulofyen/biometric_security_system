@@ -1,9 +1,17 @@
----set up the face recognition env for your pc first: 
--go to the website: https://github.com/ageitgey/face_recognition
+------for window set up:
 
+---set up the face recognition env for your pc first: 
+
+-go to the website: https://github.com/ageitgey/face_recognition
 -install the face_recognition api, if you face problem install dlib, watch this video: 
 https://www.youtube.com/watch?v=AUJKdehF2ZA&t=280s
 
+---then install following module for the script:
+
+pip install opencv-python       #opeating the webcam
+pip install SpeechRecognition   #convert your talk to text 
+pip install gtts                #convert text to mp3 audio file 
+pip install playsound==1.2.2    #play out the mp3 from pc speaker 
 
 ---how to git push the project: 
 -goes to the folder you store the code of this project
