@@ -3,11 +3,18 @@ import function.Face_DataBase as Face_DataBase
 
 
 def main():
-    user_interact.convert_to_audio("sorry, I cannot recognize your face")
-    user_interact.convert_to_audio("are you looking for someone? if so, please speak their name")
+    #user_interact.convert_to_audio("sorry, I cannot recognize your face")
+    #user_interact.convert_to_audio("are you looking for someone? if so, please speak their name")
+    
+    #below are for testing time saving 
+    user_interact.convert_to_audio("cannot recognize")
+    user_interact.convert_to_audio("speak name")
     
     #asking the stranger to provide a name from database. 
-    looking_name = user_interact.recognize_speech().upper()
+    try:
+        looking_name = user_interact.recognize_speech().upper()
+    except AttributeError: #if the recognize_speech() failed to convert speech to text then there is no object to be upper case. 
+        looking_name = user_interact.recognize_speech()
     #future adding: the sentence the stranger said may not be only the name; might be a sentence like"hi, I am looking for BOB WANG" 
     #               find a way to only extract the NAME part which we need to compare with the database. 
     

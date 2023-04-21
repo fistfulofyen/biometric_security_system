@@ -25,7 +25,9 @@ face_encodings = []
 face_names = []
 process_this_frame = True
 
-run_once = 0
+run_once_true = 0
+run_once_false = 0
+start_time = time.time()
 
 while True:
     # Grab a single frame of video
@@ -60,29 +62,35 @@ while True:
 
 
 
+            # Check if any face in the frame matches a known face
+            matches = [True if distance < 0.6 else False for distance in face_distances]
             if True in matches:
-                #first_match_index = matches.index(True)
+                # Get the index of the best match
+                best_match_index = matches.index(True)
                 name = Face_DataBase.known_face_names[best_match_index]
-                if run_once ==0:
-                    user_interact.convert_to_audio("welcome home")
-                    user_interact.convert_to_audio(name)  # speak out the name of the face 
-                    
-                    #future adding: using mayching_face moudle to include more features 
-                    
-                    run_once=1
-                    # reset the welcome every 1 min 
-                    start_time = time.time() # Record the start time
-                else:
-                    current_time = time.time()
-                    if current_time - start_time >= 60: # Check if 1 min have elapsed
-                        run_once = 0 # Reset run_once if 1 min have elapsed
+    
+                # Perform actions if it's the first time the face is detected or after 1 minute
+                if run_once_true == 0 or time.time() - start_time >= 60:
+                    # Speak a welcome message and the name of the person
+                    user_interact.convert_to_audio("Welcome")
+                    user_interact.convert_to_audio(name)
+                    # Reset the welcome message timer
+                    start_time = time.time()
+                    # Set the run_once flag to avoid repeating the welcome message
+                    run_once_true = 1
             else:
-                run_once = 0 # Reset run_once if no match was found
-            
+                # Reset the run_once flag if no match was found
+                run_once_true = 0
+                
+
             if False in matches:
-                if run_once ==0:
+                if run_once_false ==0:
                     no_match_face.main()       
-                    run_once =1
+                    run_once_false =1
+
+                
+
+                
                     
 
 
