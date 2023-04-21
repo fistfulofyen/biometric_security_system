@@ -2,6 +2,7 @@ import face_recognition
 import cv2
 import numpy as np
 import time
+import datetime
 import function.Face_DataBase as Face_DataBase
 import function.no_match_face as no_match_face
 import function.user_interact as user_interact
@@ -28,6 +29,11 @@ process_this_frame = True
 run_once_true = 0
 run_once_false = 0
 start_time = time.time()
+Start_Recording = 0
+
+recoding_frame_size = (int(video_capture.get(3)), int(video_capture.get(4)))
+recoding_fourcc = cv2.VideoWriter_fourcc(*"mp4v")
+
 
 while True:
     # Grab a single frame of video
@@ -57,18 +63,19 @@ while True:
 
 
 
-
-
-
-
-
             # Check if any face in the frame matches a known face
             matches = [True if distance < 0.6 else False for distance in face_distances]
-            if True in matches:
+
+            # Check for both True and False matches
+            if True in matches and False in matches:
+                print("watch out")
+
+            # Check for True match and perform actions if found
+            elif True in matches:
                 # Get the index of the best match
                 best_match_index = matches.index(True)
                 name = Face_DataBase.known_face_names[best_match_index]
-    
+
                 # Perform actions if it's the first time the face is detected or after 1 minute
                 if run_once_true == 0 or time.time() - start_time >= 60:
                     # Speak a welcome message and the name of the person
@@ -78,15 +85,55 @@ while True:
                     start_time = time.time()
                     # Set the run_once flag to avoid repeating the welcome message
                     run_once_true = 1
-            else:
-                # Reset the run_once flag if no match was found
-                run_once_true = 0
-                
+                elif time.time() - start_time >= 60:
+                    # Reset the run_once_true flag after 60 seconds
+                    run_once_true = 0
 
-            if False in matches:
-                if run_once_false ==0:
-                    no_match_face.main()       
-                    run_once_false =1
+
+            # Check for False match and perform actions if found
+            elif False in matches:
+                # Perform actions if it's the first time no match was found or after 1 minute
+                if run_once_false == 0 or time.time() - start_time >= 60:
+                    # Call the no match face function
+                    no_match_face.main()
+                    # Reset the no match timer
+                    start_time = time.time()
+
+                    # Start recording video for 5 seconds
+                    current_time = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+                    out = cv2.VideoWriter(f"{current_time}.mp4", recoding_fourcc, 20, recoding_frame_size)
+                    print("Started Recording!")
+                    Start_Recording = 1
+                    # Set the run_once flag to avoid repeating the no match message
+                    run_once_false = 1
+
+                elif run_once_false == 1 and (time.time() - start_time <= 5):
+                    # Continue recording video for 5 seconds
+                    #frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
+                    out.write(frame)
+                    print('Recording...')
+
+                elif run_once_false == 1 and (time.time() - start_time > 5):
+                    if Start_Recording == 1:
+                        # Stop recording video after 5 seconds
+                        out.release()
+                        print('Stop Recording!!')
+                        # Reset the run_once_false flag after 60 seconds
+                        run_once_false = 1   #changed 
+                        Start_Recording = 0
+
+                elif time.time() - start_time >= 60:
+                    # Reset the run_once_false flag after 60 seconds if video recording not started
+                    if run_once_false == 1 :  #changed 
+                        run_once_false = 0
+                    else:
+                        out.release()
+                        print('Stop Recording!')
+                        run_once_false = 0
+
+            else:
+                # Both flags are not reset if no match was found
+                pass
 
                 
 
@@ -99,7 +146,7 @@ while True:
 
 
 
-# Or instead, use the known face with the smallest distance to the new face
+            # Or instead, use the known face with the smallest distance to the new face
             #face_distances = face_recognition.face_distance(Face_DataBase.known_face_encodings, face_encoding)
             #best_match_index = np.argmin(face_distances)
             if matches[best_match_index]:

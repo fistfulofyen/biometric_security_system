@@ -12,7 +12,7 @@ def main():
     
     #asking the stranger to provide a name from database. 
     try:
-        looking_name = user_interact.recognize_speech().upper()
+        looking_name = user_interact.recognize_speech()
     except AttributeError: #if the recognize_speech() failed to convert speech to text then there is no object to be upper case. 
         looking_name = user_interact.recognize_speech()
     #future adding: the sentence the stranger said may not be only the name; might be a sentence like"hi, I am looking for BOB WANG" 

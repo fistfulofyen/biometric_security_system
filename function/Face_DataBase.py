@@ -13,11 +13,7 @@ known_face_encodings = [
     DYLAN_face_encoding,
     #HANS_face_encoding
 ]
-known_face_names_raw = [
+known_face_names = [  #make sure to capitalize only the first letter and lower case for the rest of the name
     "Jackson",
     "Bob"
 ]
-#uppercase all the names for rebust
-known_face_names = []
-for name in known_face_names_raw:
-    known_face_names.append(name.upper())

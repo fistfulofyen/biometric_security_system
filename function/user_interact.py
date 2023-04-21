@@ -11,7 +11,7 @@ def recognize_speech():
     mic = sr.Microphone()
 
     with mic as source:
-        recognizer.adjust_for_ambient_noise(source)
+        #recognizer.adjust_for_ambient_noise(source)
         audio = recognizer.listen(source)
         try:
             return recognizer.recognize_google(audio)
