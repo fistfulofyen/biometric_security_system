@@ -1,5 +1,10 @@
 ------for window set up:
 
+---get the code to your local pc
+-open git bash terminal choose the folder you want to store the code
+-get the code from repo: $ git clone https://github.com/zhant22/fianl_proj_face_recog_secure_system.git
+-then go to VS code and install below module to run the script
+
 ---set up the face recognition env for your pc first: 
 
 -go to the website: https://github.com/ageitgey/face_recognition
