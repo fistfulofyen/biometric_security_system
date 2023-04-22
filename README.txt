@@ -19,6 +19,7 @@ pip install opencv-python       #opeating the webcam
 pip install SpeechRecognition   #convert your talk to text 
 pip install gtts                #convert text to mp3 audio file 
 pip install playsound==1.2.2    #play out the mp3 from pc speaker 
+pip install pyaudio
 
 ---how to use git for the project: 
 -goes to the folder you store the code of this project
