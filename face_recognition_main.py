@@ -3,9 +3,13 @@ import cv2
 import numpy as np
 import time
 import datetime
+import cvzone
+from cvzone.FaceMeshModule import FaceMeshDetector
 import function.Face_DataBase as Face_DataBase
 import function.no_match_face as no_match_face
 import function.user_interact as user_interact
+import function.patrol_mode as patrol_mode
+import function.face_depth_measure as face_depth_measure
 
 
 # This is a demo of running face recognition on live video from your webcam. It's a little more complicated than the
@@ -34,13 +38,106 @@ Start_Recording = 0
 recoding_frame_size = (int(video_capture.get(3)), int(video_capture.get(4)))
 recoding_fourcc = cv2.VideoWriter_fourcc(*"mp4v")
 
+current_time = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
 
+#patrol mode variable define and initialize 
+
+# Load Haar cascades for detecting faces and bodies
+face_cascade = cv2.CascadeClassifier(
+    cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
+body_cascade = cv2.CascadeClassifier(
+    cv2.data.haarcascades + "haarcascade_fullbody.xml")
+
+# Initialize variables for detection and recording
+detection = False
+detection_stopped_time = None
+timer_started = False
+SECONDS_TO_RECORD_AFTER_DETECTION = 5
+
+detector = FaceMeshDetector(maxFaces=1)
+
+
+# Function to check if face is close enough for face recognition
+face_to_camera_distance = face_depth_measure.get_distance()
 while True:
+
+#---start----------------------------------------------------
+#NOTE Function to check if face is close enough for face recognition; getting the distance between face and camera
+    success,img = video_capture.read()
+    img, faces = detector.findFaceMesh(img,draw=False)
+
+    if faces:
+        face = faces[0]
+        pointLeft = face[145]
+        pointRight = face[374]
+        
+        cv2.line(img,pointLeft,pointRight,(0,200,0),3)
+        cv2.circle(img,pointLeft,5,(255,0,255),cv2.FILLED)
+        cv2.circle(img,pointRight,5,(255,0,255),cv2.FILLED)
+
+        w, _ = detector.findDistance(pointLeft,pointRight)
+
+        #finding the focal Length
+        W= 6.3
+
+        # finding depth 
+        f = 515 
+        d = (W*f)/w
+        face_to_camera_distance = d
+#---end----------------------------------------------------
+
+    #print(face_to_camera_distance)
+
     # Grab a single frame of video
     ret, frame = video_capture.read()
 
+#---start----------------------------------------------------
+#NOTE patrol mode starts here, if a person is between 60 and 80cm away from the camera     
+    if 80>= face_to_camera_distance >= 60:
+        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        faces = face_cascade.detectMultiScale(gray, 1.3, 5)
+        bodies = body_cascade.detectMultiScale(gray, 1.3, 5)
+            
+        if len(faces) + len(bodies) > 0:
+            if detection:
+                timer_started = False
+            else:
+                detection = True
+                # Get the current time and create a VideoWriter object
+                patrol_mode_name="patrol-"
+                out = cv2.VideoWriter(
+                    f"{patrol_mode_name}{current_time}.mp4", recoding_fourcc, 20, recoding_frame_size)
+                print("Started Recording!")
+        # If no face or body is detected, stop recording after a delay
+        elif detection:
+            if timer_started:
+                if time.time() - detection_stopped_time >= SECONDS_TO_RECORD_AFTER_DETECTION:
+                    detection = False
+                    timer_started = False
+                    out.release()
+                    print('Stop Recording!')
+            else:
+                timer_started = True
+                detection_stopped_time = time.time()
+
+        # If recording is in progress, write the current frame to the video file
+        if detection:
+            out.write(frame)
+
+        # if cv2.waitKey(1) == ord('w'):
+        #     break
+
+#---end----------------------------------------------------
+        
+    
+
+
+#---start--------------------------------------------------
+#NOTE face recognition based security camera system starts here 
+
     # Only process every other frame of video to save time
-    if process_this_frame:
+    elif process_this_frame and face_to_camera_distance <= 40:
+        #pyautogui.typewrite('w')  # press 8 for 8 hours
         # Resize frame of video to 1/4 size for faster face recognition processing
         small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
 
@@ -61,11 +158,10 @@ while True:
             best_match_index = np.argmin(face_distances)
             # # If a match was found in known_face_encodings, just use the first one.
 
-
-
             # Check if any face in the frame matches a known face
             #below is the tolerance of the reco, lower num shows more strict 
             matches = [True if distance < 0.45 else False for distance in face_distances]
+        
 
             # Check for both True and False matches
             if True in matches and False in matches:
@@ -101,14 +197,14 @@ while True:
                     start_time = time.time()
 
                     # Start recording video for 5 seconds
-                    current_time = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
-                    out = cv2.VideoWriter(f"{current_time}.mp4", recoding_fourcc, 20, recoding_frame_size)
+                    face_reco_mode_name = "guest-face-"
+                    out = cv2.VideoWriter(f"{face_reco_mode_name}{current_time}.mp4", recoding_fourcc, 20, recoding_frame_size)
                     print("Started Recording!")
                     Start_Recording = 1
                     # Set the run_once flag to avoid repeating the no match message
                     run_once_false = 1
 
-                elif run_once_false == 1 and (time.time() - start_time <= 1):
+                elif run_once_false == 1 and (time.time() - start_time <= 1): #NOTE:longer video, bigger num here
                     # Continue recording video for 1 seconds
                     #frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
                     out.write(frame)
@@ -135,16 +231,7 @@ while True:
             else:
                 # Both flags are not reset if no match was found
                 pass
-
-                
-
-                
-                    
-
-
-
-
-
+#---end------------------------------------------------------------------------
 
 
             # Or instead, use the known face with the smallest distance to the new face
@@ -152,13 +239,9 @@ while True:
             #best_match_index = np.argmin(face_distances)
             if matches[best_match_index]:
                 name = Face_DataBase.known_face_names[best_match_index]
-
-            
-            
             face_names.append(name)
 
     process_this_frame = not process_this_frame
-
 
     # Display the results
     for (top, right, bottom, left), name in zip(face_locations, face_names):

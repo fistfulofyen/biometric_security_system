@@ -15,11 +15,13 @@ pip install CMake
 installing dlib in Window is tricky, we have to download the file from third part, following this video for help:https://www.youtube.com/watch?v=AUJKdehF2ZA&t=280s
 
 pip3 install face_recognition
-pip install opencv-python       #opeating the webcam
-pip install SpeechRecognition   #convert your talk to text 
-pip install gtts                #convert text to mp3 audio file 
-pip install playsound==1.2.2    #play out the mp3 from pc speaker 
-pip install pyaudio
+pip3 install opencv-python       #opeating the webcam
+pip3 install SpeechRecognition   #convert your talk to text 
+pip3 install gtts                #convert text to mp3 audio file 
+pip3 install playsound==1.2.2    #play out the mp3 from pc speaker 
+pip3 install pyaudio
+pip3 install cvzone
+pip3 install mediapipe
 
 ---how to use git for the project: 
 -goes to the folder you store the code of this project
