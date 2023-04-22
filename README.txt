@@ -1,13 +1,20 @@
 ------for window set up:
 
+---get the code to your local pc
+-open git bash terminal choose the folder you want to store the code
+-get the code from repo: $ git clone https://github.com/zhant22/fianl_proj_face_recog_secure_system.git
+-then go to VS code and install below module to run the script
+
 ---set up the face recognition env for your pc first: 
 
--go to the website: https://github.com/ageitgey/face_recognition
--install the face_recognition api, if you face problem install dlib, watch this video: 
-https://www.youtube.com/watch?v=AUJKdehF2ZA&t=280s
+-go to the website: https://github.com/ageitgey/face_recognition for more info or just follow below steps: 
 
----then install following module for the script:
+pip install CMake
 
+-install dlib:
+installing dlib in Window is tricky, we have to download the file from third part, following this video for help:https://www.youtube.com/watch?v=AUJKdehF2ZA&t=280s
+
+pip3 install face_recognition
 pip install opencv-python       #opeating the webcam
 pip install SpeechRecognition   #convert your talk to text 
 pip install gtts                #convert text to mp3 audio file 
