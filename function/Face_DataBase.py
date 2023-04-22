@@ -14,6 +14,6 @@ known_face_encodings = [
     #HANS_face_encoding
 ]
 known_face_names = [  #make sure to capitalize only the first letter and lower case for the rest of the name
-    "Jackson",
+    "Dylan",
     "Bob"
 ]

@@ -64,7 +64,8 @@ while True:
 
 
             # Check if any face in the frame matches a known face
-            matches = [True if distance < 0.6 else False for distance in face_distances]
+            #below is the tolerance of the reco, lower num shows more strict 
+            matches = [True if distance < 0.45 else False for distance in face_distances]
 
             # Check for both True and False matches
             if True in matches and False in matches:
@@ -107,8 +108,8 @@ while True:
                     # Set the run_once flag to avoid repeating the no match message
                     run_once_false = 1
 
-                elif run_once_false == 1 and (time.time() - start_time <= 5):
-                    # Continue recording video for 5 seconds
+                elif run_once_false == 1 and (time.time() - start_time <= 1):
+                    # Continue recording video for 1 seconds
                     #frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
                     out.write(frame)
                     print('Recording...')
