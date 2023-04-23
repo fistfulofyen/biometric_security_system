@@ -34,3 +34,6 @@ python -m spacy download en_core_web_sm   #used to extract person name from user
 -getting updates from git : $git pull 
 
 if there are any problem, watch this youtube video: https://www.youtube.com/watch?v=Lk6jCVAS3Iw
+
+feature so far: 
+
