@@ -19,9 +19,12 @@ pip3 install opencv-python       #opeating the webcam
 pip3 install SpeechRecognition   #convert your talk to text 
 pip3 install gtts                #convert text to mp3 audio file 
 pip3 install playsound==1.2.2    #play out the mp3 from pc speaker 
-pip3 install pyaudio
-pip3 install cvzone
-pip3 install mediapipe
+pip3 install pyaudio             #same as above 
+pip3 install cvzone              #detect the distance between face and camera 
+pip3 install mediapipe           #detect the distance between face and camera 
+pip3 install spacy               #used to extract person name from user speech input
+python -m spacy download en_core_web_sm   #used to extract person name from user speech input
+
 
 ---how to use git for the project: 
 -goes to the folder you store the code of this project

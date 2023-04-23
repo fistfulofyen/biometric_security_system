@@ -86,7 +86,7 @@ while True:
         face_to_camera_distance = d
 #---end----------------------------------------------------
 
-    #print(face_to_camera_distance)
+    print(face_to_camera_distance)
 
     # Grab a single frame of video
     ret, frame = video_capture.read()
