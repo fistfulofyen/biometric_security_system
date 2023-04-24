@@ -39,9 +39,8 @@ recoding_frame_size = (int(video_capture.get(3)), int(video_capture.get(4)))
 recoding_fourcc = cv2.VideoWriter_fourcc(*"mp4v")
 
 current_time = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
-
-#patrol mode variable define and initialize 
-
+#---start--------------------------------------------
+#NOTE:patrol mode variable define and initialize 
 # Load Haar cascades for detecting faces and bodies
 face_cascade = cv2.CascadeClassifier(
     cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
@@ -53,12 +52,20 @@ detection = False
 detection_stopped_time = None
 timer_started = False
 SECONDS_TO_RECORD_AFTER_DETECTION = 5
+#---end--------------------------------------
 
+
+#---start-----------------------------------
+#NOTE:find face distacne from camara variable 
 detector = FaceMeshDetector(maxFaces=1)
-
-
 # Function to check if face is close enough for face recognition
-face_to_camera_distance = face_depth_measure.get_distance()
+distance_between_head_and_camera = face_depth_measure.get_distance()
+#---end--------------------------------------
+
+DISTANCE_TO_FACE_RECOGNITION = 40 #cm
+DISTANCE_TO_NO_ACTION = 80 #cm
+DISTANCE_TO_PATROL_MODE = range(int(DISTANCE_TO_FACE_RECOGNITION+5), int(DISTANCE_TO_NO_ACTION-5)) # 45 to 75 cm 
+
 while True:
 
 #---start----------------------------------------------------
@@ -75,25 +82,21 @@ while True:
         cv2.circle(img,pointLeft,5,(255,0,255),cv2.FILLED)
         cv2.circle(img,pointRight,5,(255,0,255),cv2.FILLED)
 
-        w, _ = detector.findDistance(pointLeft,pointRight)
-
-        #finding the focal Length
-        W= 6.3
-
-        # finding depth 
-        f = 515 
-        d = (W*f)/w
-        face_to_camera_distance = d
+        width_of_two_eyes_in_pixels, _ = detector.findDistance(pointLeft,pointRight)
+        Width_of_two_eyes_in_cm= 6.3
+        focal_length_of_your_pc = 515 
+        distance_between_head_and_camera = (Width_of_two_eyes_in_cm*focal_length_of_your_pc)/width_of_two_eyes_in_pixels
+        
 #---end----------------------------------------------------
 
-    print(face_to_camera_distance)
+    print(distance_between_head_and_camera)
 
     # Grab a single frame of video
     ret, frame = video_capture.read()
 
 #---start----------------------------------------------------
-#NOTE patrol mode starts here, if a person is between 60 and 80cm away from the camera     
-    if 80>= face_to_camera_distance >= 60:
+#NOTE patrol mode starts here, if a person is between DISTANCE_TO_PATROL_MODE away from the camera     
+    if DISTANCE_TO_PATROL_MODE.start <= distance_between_head_and_camera <= DISTANCE_TO_PATROL_MODE.stop-1:
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         faces = face_cascade.detectMultiScale(gray, 1.3, 5)
         bodies = body_cascade.detectMultiScale(gray, 1.3, 5)
@@ -124,20 +127,14 @@ while True:
         if detection:
             out.write(frame)
 
-        # if cv2.waitKey(1) == ord('w'):
-        #     break
-
 #---end----------------------------------------------------
         
-    
-
 
 #---start--------------------------------------------------
 #NOTE face recognition based security camera system starts here 
 
     # Only process every other frame of video to save time
-    elif process_this_frame and face_to_camera_distance <= 40:
-        #pyautogui.typewrite('w')  # press 8 for 8 hours
+    elif process_this_frame and distance_between_head_and_camera <= 40:
         # Resize frame of video to 1/4 size for faster face recognition processing
         small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
 
@@ -204,8 +201,8 @@ while True:
                     # Set the run_once flag to avoid repeating the no match message
                     run_once_false = 1
 
-                elif run_once_false == 1 and (time.time() - start_time <= 1): #NOTE:longer video, bigger num here
-                    # Continue recording video for 1 seconds
+                elif run_once_false == 1 and (time.time() - start_time <= 5): #NOTE:longer video, bigger num here
+                    # Continue recording video for 5 seconds
                     #frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
                     out.write(frame)
                     print('Recording...')
@@ -242,22 +239,25 @@ while True:
             face_names.append(name)
 
     process_this_frame = not process_this_frame
-
+    
+    if distance_between_head_and_camera <= 40:
     # Display the results
-    for (top, right, bottom, left), name in zip(face_locations, face_names):
-        # Scale back up face locations since the frame we detected in was scaled to 1/4 size
-        top *= 4
-        right *= 4
-        bottom *= 4
-        left *= 4
+        for (top, right, bottom, left), name in zip(face_locations, face_names):
+            # Scale back up face locations since the frame we detected in was scaled to 1/4 size
+            top *= 4
+            right *= 4
+            bottom *= 4
+            left *= 4
 
-        # Draw a box around the face
-        cv2.rectangle(frame, (left, top), (right, bottom), (0, 0, 255), 2)
+            # Draw a box around the face
+            cv2.rectangle(frame, (left, top), (right, bottom), (0, 0, 255), 2)
 
-        # Draw a label with a name below the face
-        cv2.rectangle(frame, (left, bottom - 35), (right, bottom), (0, 0, 255), cv2.FILLED)
-        font = cv2.FONT_HERSHEY_DUPLEX
-        cv2.putText(frame, name, (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
+            # Draw a label with a name below the face
+            cv2.rectangle(frame, (left, bottom - 35), (right, bottom), (0, 0, 255), cv2.FILLED)
+            font = cv2.FONT_HERSHEY_DUPLEX
+            cv2.putText(frame, name, (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
+
+    
 
     # Display the resulting image
     cv2.imshow('Video', frame)
