@@ -21,6 +21,16 @@ import function.face_depth_measure as face_depth_measure
 # OpenCV is *not* required to use the face_recognition library. It's only required if you want to run this
 # specific demo. If you have trouble installing it, try any of the other demos that don't require it instead.
 
+# This code imports several libraries and defines variables that will be used in facial recognition, patrol mode, 
+# and face-depth measurements. It then creates a loop that runs continuously, taking video frames from a webcam and 
+# processing them.
+# In the loop, the code measures the distance between the camera and the face to determine if it is close enough 
+# for facial recognition. It then enters patrol mode if the distance is between a certain range, using Haar cascades 
+# to detect faces and bodies in the video frame. If a face or body is detected, it starts recording video until the 
+# object moves out of the frame or after a set amount of time has passed since the detection. If no object is detected, 
+# the code stops recording after a delay.
+
+
 # Get a reference to webcam #0 (the default one)
 video_capture = cv2.VideoCapture(0)
 
@@ -39,9 +49,13 @@ recoding_frame_size = (int(video_capture.get(3)), int(video_capture.get(4)))
 recoding_fourcc = cv2.VideoWriter_fourcc(*"mp4v")
 
 current_time = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
-#---start--------------------------------------------
-#NOTE:patrol mode variable define and initialize 
-# Load Haar cascades for detecting faces and bodies
+
+DISTANCE_TO_FACE_RECOGNITION = 40 #cm
+DISTANCE_TO_NO_ACTION = 80 #cm
+DISTANCE_TO_PATROL_MODE = range(int(DISTANCE_TO_FACE_RECOGNITION+5), int(DISTANCE_TO_NO_ACTION-5)) # 45 to 75 cm
+
+#---NOTE: start patrol mode variable define and initialize, Loading Haar cascades for detecting faces and bodies  --------------------------------------------
+
 face_cascade = cv2.CascadeClassifier(
     cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
 body_cascade = cv2.CascadeClassifier(
@@ -55,21 +69,18 @@ SECONDS_TO_RECORD_AFTER_DETECTION = 5
 #---end--------------------------------------
 
 
-#---start-----------------------------------
-#NOTE:find face distacne from camara variable 
+#---NOTE:start finding face distance from camera variable-----------------------------------
 detector = FaceMeshDetector(maxFaces=1)
 # Function to check if face is close enough for face recognition
 distance_between_head_and_camera = face_depth_measure.get_distance()
 #---end--------------------------------------
 
-DISTANCE_TO_FACE_RECOGNITION = 40 #cm
-DISTANCE_TO_NO_ACTION = 80 #cm
-DISTANCE_TO_PATROL_MODE = range(int(DISTANCE_TO_FACE_RECOGNITION+5), int(DISTANCE_TO_NO_ACTION-5)) # 45 to 75 cm 
+ 
 
 while True:
 
-#---start----------------------------------------------------
-#NOTE Function to check if face is close enough for face recognition; getting the distance between face and camera
+#---NOTE start checking if face is close enough for face recognition; returning getting the distance between face and camera -------
+#
     success,img = video_capture.read()
     img, faces = detector.findFaceMesh(img,draw=False)
 
@@ -94,8 +105,8 @@ while True:
     # Grab a single frame of video
     ret, frame = video_capture.read()
 
-#---start----------------------------------------------------
-#NOTE patrol mode starts here, if a person is between DISTANCE_TO_PATROL_MODE away from the camera     
+#---NOTE patrol mode starts here, if a person is in range of DISTANCE_TO_PATROL_MODE from the camera  ---------
+  
     if DISTANCE_TO_PATROL_MODE.start <= distance_between_head_and_camera <= DISTANCE_TO_PATROL_MODE.stop-1:
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         faces = face_cascade.detectMultiScale(gray, 1.3, 5)
@@ -130,8 +141,7 @@ while True:
 #---end----------------------------------------------------
         
 
-#---start--------------------------------------------------
-#NOTE face recognition based security camera system starts here 
+#---NOTE face recognition based security camera system starts here ---------------------
 
     # Only process every other frame of video to save time
     elif process_this_frame and distance_between_head_and_camera <= 40:
@@ -240,6 +250,7 @@ while True:
 
     process_this_frame = not process_this_frame
     
+# ---NOTE: adding the little red rectangle with matching name in the live camera frame-------     
     if distance_between_head_and_camera <= 40:
     # Display the results
         for (top, right, bottom, left), name in zip(face_locations, face_names):
@@ -256,7 +267,7 @@ while True:
             cv2.rectangle(frame, (left, bottom - 35), (right, bottom), (0, 0, 255), cv2.FILLED)
             font = cv2.FONT_HERSHEY_DUPLEX
             cv2.putText(frame, name, (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
-
+#---end---------------------------------------
     
 
     # Display the resulting image

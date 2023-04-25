@@ -35,5 +35,25 @@ python -m spacy download en_core_web_sm   #used to extract person name from user
 
 if there are any problem, watch this youtube video: https://www.youtube.com/watch?v=Lk6jCVAS3Iw
 
-feature so far: 
+
+below are not for face_recognition
+---set up visual machine------------------
+https://www.youtube.com/watch?v=hYaCCpvjsEY
+
+sudo apt install git 
+
+sudo apt install build-essential
+
+sudo apt install pkg-config
+
+git clone https://github.com/radareorg/radare2
+
+radare2/sys/install.sh
+
+r2pm init
+
+r2pm -i r2dec
+r2pm -ci r2ghidra
+
+r2pm -l 
 
