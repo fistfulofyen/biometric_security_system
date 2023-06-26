@@ -1,4 +1,5 @@
 import cv2
+print(cv2.__version__)
 import cvzone
 from cvzone.FaceMeshModule import FaceMeshDetector
 
@@ -25,13 +26,13 @@ def developer_main():
 
             width_of_two_eyes_in_pixels, _ = detector.findDistance(pointLeft,pointRight)
 
-            #NOTE: different camera have different focal value finding the focal Length for your pc. 
             Width_of_two_eyes_in_cm= 6.3
             
+            #NOTE: different camera have different focal value finding the focal Length for your pc. so we need to find out 
             if mode ==0:
-                distance_between_head_and_camera = 50 #make your head 50cm away from the camera 
+                distance_between_head_and_camera = 50 #NOTE:make your head 50cm away from the camera 
                 test_out_focal_length_for_below = distance_between_head_and_camera*width_of_two_eyes_in_pixels/Width_of_two_eyes_in_cm
-                print(test_out_focal_length_for_below)
+                print(test_out_focal_length_for_below) #NOTE: modify the value below in function
             elif mode ==1:
                 # finding depth 
                 focal_length_of_your_pc = 515 
@@ -45,7 +46,7 @@ def developer_main():
 
 
 
-def get_distance(): #NOTE : this is used in the main script, but for better readility, look at above main()
+def get_distance(): #NOTE : this is used in the main script, but for better readability, look at above main()
     detector = FaceMeshDetector(maxFaces=1)
     while True :
         success,img = video_capture.read()
@@ -62,7 +63,7 @@ def get_distance(): #NOTE : this is used in the main script, but for better read
 
             width_of_two_eyes_in_pixels, _ = detector.findDistance(pointLeft,pointRight)
             Width_of_two_eyes_in_cm= 6.3
-            focal_length_of_your_pc = 515 
+            focal_length_of_your_pc = 515  #NOTE:modify here with above value you got above in mode 0 
             distance_between_head_and_camera = (Width_of_two_eyes_in_cm*focal_length_of_your_pc)/width_of_two_eyes_in_pixels
             return distance_between_head_and_camera 
 

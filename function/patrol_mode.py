@@ -64,7 +64,7 @@ def main():
         cv2.imshow("Camera", frame)
 
         # Exit the loop if the 'q' key is pressed
-        if cv2.waitKey(1) == ord('w'):
+        if cv2.waitKey(1) == ord('q'):
             break
 
     # Release the VideoWriter and VideoCapture objects, and close all windows
