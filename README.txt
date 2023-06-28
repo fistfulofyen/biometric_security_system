@@ -1,17 +1,26 @@
 ------for window set up:
 
+--------------------------------
 ---get the code to your local pc
+--------------------------------
+-download git bash at: https://git-scm.com/downloads
 -open git bash terminal choose the folder you want to store the code
 -get the code from repo: $ git clone https://github.com/zhant22/fianl_proj_face_recog_secure_system.git
 -then go to VS code and install below module to run the script
 
+
+
 ---set up the face recognition env for your pc first: 
+
+adding your python to your PC's path if you are using window, usually some where like this: 
+C:\Users\Administrator\AppData\Local\Programs\Python\Python39
+C:\Users\Administrator\AppData\Local\Programs\Python\Python39\Scripts
 
 -go to the website: https://github.com/ageitgey/face_recognition for more info or just follow below steps: 
 
 pip install CMake
 
--install dlib:
+-pip install dlib:
 installing dlib in Window is tricky, we have to download the file from third part, following this video for help:https://www.youtube.com/watch?v=AUJKdehF2ZA&t=280s
 
 pip3 install face_recognition
