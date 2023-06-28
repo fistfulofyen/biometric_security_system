@@ -204,7 +204,7 @@ while True:
                 # Perform actions if it's the first time no match was found or after 1 minute
                 if run_once_false == 0 or time.time() - start_time >= 60:
                     # Call the no match face function
-                    no_match_face.main()
+                    no_match_face.FUNC_asking_guest_tell_family_member_name()
                     # Reset the no match timer
                     start_time = time.time()
 
