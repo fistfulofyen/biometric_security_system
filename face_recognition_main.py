@@ -10,6 +10,7 @@ import function.no_match_face as no_match_face
 import function.user_interact as user_interact
 import function.patrol_mode as patrol_mode
 import function.face_depth_measure as face_depth_measure
+import function.control_hardware as control_hardware
 
 
 # This is a demo of running face recognition on live video from your webcam. It's a little more complicated than the
@@ -180,6 +181,10 @@ while True:
 
                 # Perform actions if it's the first time the face is detected or after 1 minute
                 if run_once_true == 0 or time.time() - start_time >= 60:
+                    
+                    # turn on the Green LED light
+                    control_hardware.turn_on_LED('G')
+                    
                     # Speak a welcome message and the name of the person
                     user_interact.convert_to_audio("Welcome")
                     user_interact.convert_to_audio(name)
@@ -187,6 +192,8 @@ while True:
                     start_time = time.time()
                     # Set the run_once flag to avoid repeating the welcome message
                     run_once_true = 1
+                    # turn off the Green LED light
+                    control_hardware.turn_on_LED('OFF')
                 elif time.time() - start_time >= 60:
                     # Reset the run_once_true flag after 60 seconds
                     run_once_true = 0
