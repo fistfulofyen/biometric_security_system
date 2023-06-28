@@ -32,6 +32,7 @@ pip3 install pyaudio             #same as above
 pip3 install cvzone              #detect the distance between face and camera 
 pip3 install mediapipe           #detect the distance between face and camera 
 pip3 install spacy               #used to extract person name from user speech input
+pip3 install pyserial            #using python to control arduino board
 python -m spacy download en_core_web_sm   #used to extract person name from user speech input
 
 
