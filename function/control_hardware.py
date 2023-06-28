@@ -1,12 +1,18 @@
-#the file is used to control all hardware for this porject 
 import serial
 import time
-arduinoData = serial.Serial('com4',115200)
 import itertools
 
-import time
+def turn_on_LED(color, port='com4', baudrate=115200):
+    arduinoData = None
+    error_message_printed = False
 
-def turn_on_LED(color):
+    try:
+        arduinoData = serial.Serial(port, baudrate)
+    except serial.SerialException as e:
+        if not error_message_printed:
+            print("Breadboard not connected. Cannot send command.")
+            error_message_printed = True
+
     colors = ['R', 'G', 'B']  # List of colors to cycle through
     color_cycle = itertools.cycle(colors)
     start_time = time.time()
@@ -19,10 +25,17 @@ def turn_on_LED(color):
 
         myCmd = next(color_cycle) if color == 'CYCLE' else color
         myCmd = myCmd + '\r'
-        arduinoData.write(myCmd.encode())
+
+        if arduinoData:
+            arduinoData.write(myCmd.encode())
+        elif not error_message_printed:
+            print("arduino not connected. Cannot send command.")
+            error_message_printed = True
 
 if __name__ == '__main__':
-    turn_on_LED('OFF')
+    turn_on_LED('G')
+
+
 
 
 
