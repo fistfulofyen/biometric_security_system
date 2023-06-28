@@ -34,8 +34,6 @@ import function.face_depth_measure as face_depth_measure
 # Get a reference to webcam #0 (the default one)
 video_capture = cv2.VideoCapture(0)
 
-#video_capture = cv2.VideoCapture(0+cv2.CAP_DSHOW)
-
 # Initialize some variables
 face_locations = []
 face_encodings = []
@@ -77,8 +75,7 @@ detector = FaceMeshDetector(maxFaces=1)
 distance_between_head_and_camera = face_depth_measure.get_distance()
 #---end--------------------------------------
 
- 
-
+print("---camera on---") 
 while True:
 
 #---NOTE start checking if face is close enough for face recognition; printing out the distance between face and camera -------
