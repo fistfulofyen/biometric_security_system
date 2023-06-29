@@ -2,7 +2,7 @@ import serial
 import time
 import itertools
 
-def turn_on_LED(color, port='com4', baudrate=115200):
+def turn_on_LED(color, port='com5', baudrate=115200): 
     arduinoData = None
     error_message_printed = False
 
@@ -10,7 +10,7 @@ def turn_on_LED(color, port='com4', baudrate=115200):
         arduinoData = serial.Serial(port, baudrate)
     except serial.SerialException as e:
         if not error_message_printed:
-            print("Breadboard not connected. Cannot send command.")
+            print("Breadboard not connected. Cannot send command, check port and baudrate")
             error_message_printed = True
 
     colors = ['R', 'G', 'B']  # List of colors to cycle through
@@ -33,7 +33,7 @@ def turn_on_LED(color, port='com4', baudrate=115200):
             error_message_printed = True
 
 if __name__ == '__main__':
-    turn_on_LED('G')
+    turn_on_LED('R')
 
 
 
