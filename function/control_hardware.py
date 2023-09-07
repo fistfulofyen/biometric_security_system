@@ -2,7 +2,7 @@ import serial
 import time
 import itertools
 
-def turn_on_LED(color, port='com3', baudrate=115200): 
+def turn_on_LED(color, port='com5', baudrate=115200): 
     arduinoData = None
     error_message_printed = False
 
@@ -33,7 +33,7 @@ def turn_on_LED(color, port='com3', baudrate=115200):
             error_message_printed = True
 
 
-def rotate_motor(open_or_close_the_lock, port='com3', baudrate=115200): 
+def rotate_motor(open_or_close_the_lock, port='com5', baudrate=115200): 
     arduinoData = None
     error_message_printed = False
 
@@ -64,7 +64,8 @@ def rotate_motor(open_or_close_the_lock, port='com3', baudrate=115200):
 if __name__ == '__main__':
 
     rotate_motor('open')
-    turn_on_LED('R')
+    turn_on_LED('G')
+    turn_on_LED('OFF')
 
 
 
