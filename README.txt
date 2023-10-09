@@ -17,7 +17,7 @@ C:\Users\Administrator\AppData\Local\Programs\Python\Python39
 C:\Users\Administrator\AppData\Local\Programs\Python\Python39\Scripts
 
 -go to the website: https://github.com/ageitgey/face_recognition for more info or just follow below steps: 
-
+--------------------------------------
 pip install CMake
 
 -pip install dlib:
@@ -35,6 +35,9 @@ pip3 install spacy               #used to extract person name from user speech i
 pip3 install pyserial            #using python to control arduino board 
 python -m spacy download en_core_web_sm   #used to extract person name from user speech input
 
+using this following line to install all these package in one command line: 
+pip3 install face_recognition opencv-python SpeechRecognition gtts playsound==1.2.2 pyaudio cvzone mediapipe spacy pyserial && python -m spacy download en_core_web_sm
+
 
 ---how to use git for the project: 
 -goes to the folder you store the code of this project
@@ -47,7 +50,8 @@ if there are any problem, watch this youtube video: https://www.youtube.com/watc
 
 
 below are not for face_recognition
----set up visual machine------------------
+
+--------------------set up visual machine-----------------------------
 https://www.youtube.com/watch?v=hYaCCpvjsEY
 
 sudo apt install git 
