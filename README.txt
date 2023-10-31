@@ -5,7 +5,7 @@
 --------------------------------
 -download git bash at: https://git-scm.com/downloads
 -open git bash terminal choose the folder you want to store the code
--get the code from repo: $ git clone https://github.com/zhant22/fianl_proj_face_recog_secure_system.git
+-get the code from repo: $ git clone https://github.com/zhant22/biometric_security_system.git
 -then go to VS code and install below module to run the script
 
 
