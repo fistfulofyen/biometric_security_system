@@ -16,7 +16,7 @@ def extract_name(text):
 
 def recognize_speech():
     recognizer = sr.Recognizer()
-    recognizer.energy_threshold = 300
+    recognizer.energy_threshold = 200
     mic = sr.Microphone()
 
     with mic as source:
