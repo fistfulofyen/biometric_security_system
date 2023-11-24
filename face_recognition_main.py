@@ -51,7 +51,7 @@ recoding_fourcc = cv2.VideoWriter_fourcc(*"mp4v")
 
 current_time = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
 
-DISTANCE_TO_FACE_RECOGNITION = 30 #cm
+DISTANCE_TO_FACE_RECOGNITION = 20 #cm
 DISTANCE_TO_NO_ACTION = 60 #cm
 DISTANCE_TO_PATROL_MODE = range(int(DISTANCE_TO_FACE_RECOGNITION+5), int(DISTANCE_TO_NO_ACTION-5)) # 45 to 75 cm
 
@@ -77,7 +77,6 @@ detector = FaceMeshDetector(maxFaces=1)
 distance_between_head_and_camera = face_depth_measure.get_distance()
 #---end--------------------------------------
 
-print("---camera on---") 
 
 while True:
 
@@ -112,7 +111,9 @@ while True:
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         faces = face_cascade.detectMultiScale(gray, 1.3, 5)
         bodies = body_cascade.detectMultiScale(gray, 1.3, 5)
-            
+
+
+
         if len(faces) + len(bodies) > 0:
             if detection:
                 timer_started = False
@@ -122,6 +123,8 @@ while True:
                 patrol_mode_name="patrol-"
                 out = cv2.VideoWriter(
                     f"{patrol_mode_name}{current_time}.mp4", recoding_fourcc, 20, recoding_frame_size)
+                
+                user_interact.convert_to_audio("patrol mode, recording start")
                 print("Started Recording!")
         # If no face or body is detected, stop recording after a delay
         elif detection:
