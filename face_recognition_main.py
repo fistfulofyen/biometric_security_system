@@ -51,8 +51,8 @@ recoding_fourcc = cv2.VideoWriter_fourcc(*"mp4v")
 
 current_time = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
 
-DISTANCE_TO_FACE_RECOGNITION = 40 #cm
-DISTANCE_TO_NO_ACTION = 80 #cm
+DISTANCE_TO_FACE_RECOGNITION = 30 #cm
+DISTANCE_TO_NO_ACTION = 60 #cm
 DISTANCE_TO_PATROL_MODE = range(int(DISTANCE_TO_FACE_RECOGNITION+5), int(DISTANCE_TO_NO_ACTION-5)) # 45 to 75 cm
 
 #---NOTE: start patrol mode variable define and initialize, Loading Haar cascades for detecting faces and bodies  --------------------------------------------
@@ -69,6 +69,7 @@ timer_started = False
 SECONDS_TO_RECORD_AFTER_DETECTION = 5
 #---end--------------------------------------
 
+user_interact.convert_to_audio("system active")
 
 #---NOTE:start finding face distance from camera variable-----------------------------------
 detector = FaceMeshDetector(maxFaces=1)
@@ -77,6 +78,7 @@ distance_between_head_and_camera = face_depth_measure.get_distance()
 #---end--------------------------------------
 
 print("---camera on---") 
+
 while True:
 
 #---NOTE start checking if face is close enough for face recognition; printing out the distance between face and camera -------
