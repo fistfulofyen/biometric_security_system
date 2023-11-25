@@ -261,11 +261,11 @@ while True:
     process_this_frame = not process_this_frame
     
 # ---NOTE: adding the little red rectangle with matching name in the live camera frame-------     
-    if distance_between_head_and_camera <= 40:
+    if distance_between_head_and_camera <= (DISTANCE_TO_FACE_RECOGNITION + 10):
     # Display the results
         for (top, right, bottom, left), name in zip(face_locations, face_names):
             # Scale back up face locations since the frame we detected in was scaled to 1/4 size
-            top *= 4
+            top *= 4 
             right *= 4
             bottom *= 4
             left *= 4
