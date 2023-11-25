@@ -1,9 +1,12 @@
+import speech_recognition as sr
+import spacy
+
+#NOTE: convert audio input from mic to a sting 
+
 def main():
     print("this is the interaction module for the application")
 #---start---------------------------------------------------
-#NOTE: convert audio input from mic to a sting 
-import speech_recognition as sr
-import spacy
+
 
 nlp = spacy.load("en_core_web_sm")
 
