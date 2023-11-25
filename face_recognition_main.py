@@ -125,7 +125,7 @@ while True:
                     f"{patrol_mode_name}{current_time}.mp4", recoding_fourcc, 20, recoding_frame_size)
                 
                 user_interact.convert_to_audio("patrol mode, recording start")
-                print("Started Recording!")
+                print("patrol mode Started Recording!")
         # If no face or body is detected, stop recording after a delay
         elif detection:
             if timer_started:
@@ -133,7 +133,7 @@ while True:
                     detection = False
                     timer_started = False
                     out.release()
-                    print('Stop Recording!')
+                    print('patrol mode Stop Recording!')
             else:
                 timer_started = True
                 detection_stopped_time = time.time()

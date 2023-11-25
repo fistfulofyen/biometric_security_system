@@ -9,8 +9,8 @@ def FUNC_asking_guest_tell_family_member_name():
     
     #below are for testing time saving 
     control_hardware.turn_on_LED('B')
-    user_interact.convert_to_audio("cannot recognize")
-    user_interact.convert_to_audio("speak name")
+    user_interact.convert_to_audio("sorry I cannot recognize your face")
+    user_interact.convert_to_audio("please speak the name you want to visit")
     
     #asking the stranger to provide a name from database. 
     try:
