@@ -2,14 +2,13 @@
 
 --------------------------------
 ---get the code to your local pc
---------------------------------
 -download git bash at: https://git-scm.com/downloads
 -open git bash terminal choose the folder you want to store the code
 -get the code from repo: $ git clone https://github.com/zhant22/biometric_security_system.git
 -then go to VS code and install below module to run the script
 
 
-
+--------------------------------------------------
 ---set up the face recognition env for your pc first: 
 
 adding your python to your PC's path if you are using window, usually some where like this: 
@@ -17,10 +16,12 @@ C:\Users\Administrator\AppData\Local\Programs\Python\Python39
 C:\Users\Administrator\AppData\Local\Programs\Python\Python39\Scripts
 
 -go to the website: https://github.com/ageitgey/face_recognition for more info or just follow below steps: 
---------------------------------------
-pip install CMake
 
--pip install dlib:
+--------------------------------------
+---all package and library needed
+
+pip install CMake
+pip install dlib:
 installing dlib in Window is tricky, we have to download the file from third part, following this video for help:https://www.youtube.com/watch?v=AUJKdehF2ZA&t=280s
 
 pip3 install face_recognition
@@ -35,10 +36,8 @@ pip3 install spacy               #used to extract person name from user speech i
 pip3 install pyserial            #using python to control arduino board 
 python -m spacy download en_core_web_sm   #used to extract person name from user speech input
 
-using this following line to install all these package in one command line: 
-pip3 install face_recognition opencv-python SpeechRecognition gtts playsound==1.2.2 pyaudio cvzone mediapipe spacy pyserial && python -m spacy download en_core_web_sm
 
-
+---------------------------------
 ---how to use git for the project: 
 -goes to the folder you store the code of this project
 -if you added a new file: $ git add .  (make sure the dot in the end, it means all)
@@ -47,27 +46,4 @@ pip3 install face_recognition opencv-python SpeechRecognition gtts playsound==1.
 -getting updates from git : $git pull 
 
 if there are any problem, watch this youtube video: https://www.youtube.com/watch?v=Lk6jCVAS3Iw
-
-
-below are not for face_recognition
-
---------------------set up visual machine-----------------------------
-https://www.youtube.com/watch?v=hYaCCpvjsEY
-
-sudo apt install git 
-
-sudo apt install build-essential
-
-sudo apt install pkg-config
-
-git clone https://github.com/radareorg/radare2
-
-radare2/sys/install.sh
-
-r2pm init
-
-r2pm -i r2dec
-r2pm -ci r2ghidra
-
-r2pm -l 
 
