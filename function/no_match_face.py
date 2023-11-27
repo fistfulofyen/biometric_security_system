@@ -39,6 +39,11 @@ def FUNC_asking_guest_tell_family_member_name():
         if looking_name in Face_DataBase.known_face_names: #if the stranger knows the name of the family 
             control_hardware.turn_on_LED('G')
             user_interact.convert_to_audio("welcome")
+            user_interact.convert_to_audio(friend_name)
+            user_interact.convert_to_audio("I will contact")
+            user_interact.convert_to_audio(looking_name)
+            user_interact.convert_to_audio("for your right now.")
+            
             #future adding: sending email to the owner, and a capture of the face in cam, if owner reply YES. then let the guest in 
             #future adding: ask the stanger to register their face in GUEST_LIST so that next time, they can login directly
             #future adding: emotion or guesture moitoring, if a known face is hijacked by a stranger 

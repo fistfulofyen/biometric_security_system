@@ -49,9 +49,9 @@ recoding_fourcc = cv2.VideoWriter_fourcc(*"mp4v")
 
 current_time = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
 
-DISTANCE_TO_FACE_RECOGNITION = 20 #cm
-DISTANCE_TO_NO_ACTION = 60 #cm
-DISTANCE_TO_PATROL_MODE = range(int(DISTANCE_TO_FACE_RECOGNITION+5), int(DISTANCE_TO_NO_ACTION-5)) # 45 to 75 cm
+DISTANCE_TO_FACE_RECOGNITION = 30 #cm
+DISTANCE_TO_NO_ACTION = 65 #cm
+DISTANCE_TO_PATROL_MODE = range(int(DISTANCE_TO_FACE_RECOGNITION+5), int(DISTANCE_TO_NO_ACTION-5)) # 35 to 60 cm
 
 #---NOTE: start patrol mode variable define and initialize, Loading Haar cascades for detecting faces and bodies  --------------------------------------------
 

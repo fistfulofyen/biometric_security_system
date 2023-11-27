@@ -2,7 +2,9 @@ import serial
 import time
 import itertools
 
-def turn_on_LED(color, port='com5', baudrate=115200): 
+#NOTE: for my ROG laptop, pulg arduino in the USB next to the arrow right key, which is com3
+
+def turn_on_LED(color, port='com3', baudrate=115200): 
     arduinoData = None
     error_message_printed = False
 
@@ -33,7 +35,7 @@ def turn_on_LED(color, port='com5', baudrate=115200):
             error_message_printed = True
 
 
-def rotate_motor(open_or_close_the_lock, port='com5', baudrate=115200): 
+def rotate_motor(open_or_close_the_lock, port='com3', baudrate=115200): 
     arduinoData = None
     error_message_printed = False
 
@@ -61,7 +63,7 @@ def rotate_motor(open_or_close_the_lock, port='com5', baudrate=115200):
             print("arduino not connected. Cannot send command.")
             error_message_printed = True
 
-def read_data_from_arduino(port='com5', baudrate=115200): 
+def read_data_from_arduino(port='com3', baudrate=115200): 
     arduinoData = None
     error_message_printed = False
 
@@ -79,20 +81,27 @@ def read_data_from_arduino(port='com5', baudrate=115200):
             if myData == 'Found a print match!':
                 return True
 
-if __name__ == '__main__':
-    flag = None
-    while True:
-        flag = read_data_from_arduino()
-        if flag:
-            rotate_motor('open')
-            turn_on_LED('G')
-            turn_on_LED('G')
-            turn_on_LED('G')
-            turn_on_LED('R')
-            rotate_motor('close')
-            turn_on_LED('OFF')
 
-        flag = None
+def open_the_door(port='com3'):
+    rotate_motor('open',port)
+    turn_on_LED('G',port)
+    turn_on_LED('G',port)
+    turn_on_LED('G',port)
+    turn_on_LED('R',port)
+    rotate_motor('close',port)
+    turn_on_LED('OFF',port)
+
+if __name__ == '__main__':
+    # flag = None
+    # while True:
+    #     flag = read_data_from_arduino()
+    #     if flag:
+    #         open_the_door()
+
+    #     flag = None
+    open_the_door('com3')
+
+    
 
 
 
