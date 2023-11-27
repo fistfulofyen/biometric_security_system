@@ -19,3 +19,9 @@ known_face_names = [  #make sure to capitalize only the first letter and lower c
     "Dylan",
     "Jackson"
 ]
+
+
+known_friend_names = [  #make sure to capitalize only the first letter and lower case for the rest of the name
+    "Mike",
+    "Bob"
+]
