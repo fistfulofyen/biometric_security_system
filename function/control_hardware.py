@@ -51,7 +51,7 @@ def rotate_motor(open_or_close_the_lock, port='com3', baudrate=115200):
     while True:
         elapsed_time = time.time() - start_time
 
-        if elapsed_time >= 2.7:
+        if elapsed_time >= 2.5:
             break
 
         myCmd = open_or_close_the_lock
@@ -85,8 +85,6 @@ def read_data_from_arduino(port='com3', baudrate=115200):
 def open_the_door(port='com3'):
     rotate_motor('open',port)
     turn_on_LED('G',port)
-    turn_on_LED('G',port)
-    turn_on_LED('G',port)
     turn_on_LED('R',port)
     rotate_motor('close',port)
     turn_on_LED('OFF',port)
@@ -99,7 +97,7 @@ if __name__ == '__main__':
     #         open_the_door()
 
     #     flag = None
-    open_the_door('com3')
+    open_the_door('com5')
 
     
 

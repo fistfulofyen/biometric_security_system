@@ -1,5 +1,5 @@
 import function.user_interact as user_interact
-import function.Face_DataBase as Face_DataBase
+import function.Bio_DataBase as Bio_DataBase
 import function.control_hardware as control_hardware
 
 # It asks the guest to speak their name, recognizing it using 
@@ -23,7 +23,7 @@ def FUNC_asking_guest_tell_family_member_name():
 
     print(friend_name)
 
-    if friend_name in Face_DataBase.known_friend_names: #if the stranger knows the name of the family 
+    if friend_name in Bio_DataBase.known_friend_names: #if the stranger knows the name of the family 
         user_interact.convert_to_audio("Hi")
         user_interact.convert_to_audio(friend_name)
         user_interact.convert_to_audio("are you looking for someone? if so, please speak their name")
@@ -36,7 +36,7 @@ def FUNC_asking_guest_tell_family_member_name():
 
         
         print(looking_name)
-        if looking_name in Face_DataBase.known_face_names: #if the stranger knows the name of the family 
+        if looking_name in Bio_DataBase.known_face_names: #if the stranger knows the name of the family 
             control_hardware.turn_on_LED('G')
             user_interact.convert_to_audio("welcome")
             user_interact.convert_to_audio(friend_name)

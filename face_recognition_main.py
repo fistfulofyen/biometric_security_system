@@ -5,7 +5,7 @@ import time
 import datetime
 import cvzone
 from cvzone.FaceMeshModule import FaceMeshDetector
-import function.Face_DataBase as Face_DataBase
+import function.Bio_DataBase as Bio_DataBase
 import function.no_match_face as no_match_face
 import function.user_interact as user_interact
 import function.patrol_mode as patrol_mode
@@ -160,10 +160,10 @@ while True:
         face_names = []
         for face_encoding in face_encodings:
             # See if the face is a match for the known face(s)
-            matches = face_recognition.compare_faces(Face_DataBase.known_face_encodings, face_encoding)
+            matches = face_recognition.compare_faces(Bio_DataBase.known_face_encodings, face_encoding)
             name = "Unknown"
             
-            face_distances = face_recognition.face_distance(Face_DataBase.known_face_encodings, face_encoding)
+            face_distances = face_recognition.face_distance(Bio_DataBase.known_face_encodings, face_encoding)
             best_match_index = np.argmin(face_distances)
             # # If a match was found in known_face_encodings, just use the first one.
 
@@ -180,7 +180,7 @@ while True:
             elif True in matches:
                 # Get the index of the best match
                 best_match_index = matches.index(True)
-                name = Face_DataBase.known_face_names[best_match_index]
+                name = Bio_DataBase.known_face_names[best_match_index]
 
                 # Perform actions if it's the first time the face is detected or after 1 minute
                 if run_once_true == 0 or time.time() - start_time >= 60:
@@ -253,7 +253,7 @@ while True:
             #face_distances = face_recognition.face_distance(Face_DataBase.known_face_encodings, face_encoding)
             #best_match_index = np.argmin(face_distances)
             if matches[best_match_index]:
-                name = Face_DataBase.known_face_names[best_match_index]
+                name = Bio_DataBase.known_face_names[best_match_index]
             face_names.append(name)
 
     process_this_frame = not process_this_frame
