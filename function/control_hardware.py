@@ -2,9 +2,9 @@ import serial
 import time
 import itertools
 
-#NOTE: for my ROG laptop, pulg arduino in the USB next to the arrow right key, which is com3
+#NOTE: for my ROG laptop, pulg arduino in the USB next to the arrow right key, which is com5
 
-def turn_on_LED(color, port='com3', baudrate=115200): 
+def turn_on_LED(color, port='com5', baudrate=9600): 
     arduinoData = None
     error_message_printed = False
 
@@ -35,7 +35,7 @@ def turn_on_LED(color, port='com3', baudrate=115200):
             error_message_printed = True
 
 
-def rotate_motor(open_or_close_the_lock, port='com3', baudrate=115200): 
+def rotate_motor(open_or_close_the_lock, port='com5', baudrate=9600): 
     arduinoData = None
     error_message_printed = False
 
@@ -63,41 +63,68 @@ def rotate_motor(open_or_close_the_lock, port='com3', baudrate=115200):
             print("arduino not connected. Cannot send command.")
             error_message_printed = True
 
-def read_data_from_arduino(port='com3', baudrate=115200): 
-    arduinoData = None
+
+def check_finger_print(check_or_not, port='com5', baudrate=9600, duration=10):
+    finger_check_pass = 0
+    arduino_data = None
     error_message_printed = False
 
     try:
-        arduinoData = serial.Serial(port, baudrate)
+        arduino_data = serial.Serial(port, baudrate, timeout=1)
     except serial.SerialException as e:
         if not error_message_printed:
             print("Breadboard not connected. Cannot send command, check port and baudrate")
             error_message_printed = True
 
+    start_time = time.time()
+
     while True:
-        if (arduinoData.in_waiting()>0):
-            myData = arduinoData.read()
-            print(myData)
-            if myData == 'Found a print match!':
-                return True
+        elapsed_time = time.time() - start_time
+
+        if elapsed_time >= duration:
+            break
+
+        my_cmd = check_or_not + '\r'
+
+        if arduino_data:
+            arduino_data.write(my_cmd.encode())
+            response = arduino_data.readline().decode().strip() #read data from finger print reader.
+
+            if "No finger detected" in response:
+                print("No finger detected")
 
 
-def open_the_door(port='com3'):
-    rotate_motor('open',port)
-    turn_on_LED('G',port)
-    turn_on_LED('R',port)
-    rotate_motor('close',port)
-    turn_on_LED('OFF',port)
+            elif "Found a print match!" in response:
+                print("Found a print match!")
+                finger_check_pass = 1
+                return finger_check_pass
+
+            
+            elif "Did not find a match" in response:
+                print("Did not find a match")
+    
+    if arduino_data:
+        arduino_data.close()
+
+
+
+
+def open_the_door(port='com5',baudrate = '9600'):
+    rotate_motor('open',port,baudrate)
+    turn_on_LED('G',port,baudrate)
+    turn_on_LED('R',port,baudrate)
+    rotate_motor('close',port,baudrate)
+    turn_on_LED('OFF',port,baudrate)
 
 if __name__ == '__main__':
-    # flag = None
-    # while True:
-    #     flag = read_data_from_arduino()
-    #     if flag:
-    #         open_the_door()
 
-    #     flag = None
-    open_the_door('com5')
+    finger_check_pass=check_finger_print('check','com5')
+
+    if finger_check_pass:
+        open_the_door('com5')
+
+    #open_the_door('com5')
+
 
     
 

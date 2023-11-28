@@ -53,6 +53,8 @@ DISTANCE_TO_FACE_RECOGNITION = 30 #cm
 DISTANCE_TO_NO_ACTION = 65 #cm
 DISTANCE_TO_PATROL_MODE = range(int(DISTANCE_TO_FACE_RECOGNITION+5), int(DISTANCE_TO_NO_ACTION-5)) # 35 to 60 cm
 
+ENHANCED_MODE = 1 #NOTE:set this parameter to one if you want to use both facial recognition and finger print reader. 
+
 #---NOTE: start patrol mode variable define and initialize, Loading Haar cascades for detecting faces and bodies  --------------------------------------------
 
 face_cascade = cv2.CascadeClassifier(
@@ -184,19 +186,38 @@ while True:
 
                 # Perform actions if it's the first time the face is detected or after 1 minute
                 if run_once_true == 0 or time.time() - start_time >= 60:
-                    
-                    # turn on the Green LED light
-                    control_hardware.turn_on_LED('G')
-                    
-                    # Speak a welcome message and the name of the person
-                    user_interact.convert_to_audio("Welcome")
-                    user_interact.convert_to_audio(name)
-                    # Reset the welcome message timer
-                    start_time = time.time()
-                    # Set the run_once flag to avoid repeating the welcome message
-                    run_once_true = 1
-                    # turn off the Green LED light
-                    control_hardware.turn_on_LED('OFF')
+                    if ENHANCED_MODE:
+                        user_interact.convert_to_audio("to further check your ID, scan your finger within 5 seconds")
+                        finger_check_pass=control_hardware.check_finger_print('check','com5')
+
+                        if finger_check_pass:
+                            user_interact.convert_to_audio("Welcome")
+                            user_interact.convert_to_audio(name)
+                            control_hardware.open_the_door('com5')
+                            # Reset the welcome message timer
+                            start_time = time.time()
+                            # Set the run_once flag to avoid repeating the welcome message
+                            run_once_true = 1
+                            # turn off the Green LED light
+                        else:
+                            user_interact.convert_to_audio("sorry you do not match all checks")
+                            start_time = time.time()
+                            # Set the run_once flag to avoid repeating the welcome message
+                            run_once_true = 1
+
+                    else:
+                        # turn on the Green LED light
+                        control_hardware.turn_on_LED('G')
+                        
+                        # Speak a welcome message and the name of the person
+                        user_interact.convert_to_audio("Welcome")
+                        user_interact.convert_to_audio(name)
+                        # Reset the welcome message timer
+                        start_time = time.time()
+                        # Set the run_once flag to avoid repeating the welcome message
+                        run_once_true = 1
+                        # turn off the Green LED light
+                        control_hardware.turn_on_LED('OFF')
                 elif time.time() - start_time >= 60:
                     # Reset the run_once_true flag after 60 seconds
                     run_once_true = 0
