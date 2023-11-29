@@ -6,7 +6,7 @@ from cvzone.FaceMeshModule import FaceMeshDetector
 video_capture = cv2.VideoCapture(0)
 
 
-def developer_main(calibration_mode =1):
+def get_distance(calibration_mode =1):
 
     #NOTE:for every new camera or laptop with webcam that you use, you need to calibrate the "focal_length_of_your_pc" parameter,
     #since every camera has different internal parameter of their only. in order to do that:
@@ -52,26 +52,5 @@ def developer_main(calibration_mode =1):
 
 
 
-def get_distance(): #NOTE : this is used in the main script, but for better readability, look at above main()
-    detector = FaceMeshDetector(maxFaces=1)
-    while True :
-        success,img = video_capture.read()
-        img, faces = detector.findFaceMesh(img,draw=False)
-
-        if faces:
-            face = faces[0]
-            pointLeft = face[145]
-            pointRight = face[374]
-            
-            cv2.line(img,pointLeft,pointRight,(0,200,0),3)
-            cv2.circle(img,pointLeft,5,(255,0,255),cv2.FILLED)
-            cv2.circle(img,pointRight,5,(255,0,255),cv2.FILLED)
-
-            width_of_two_eyes_in_pixels, _ = detector.findDistance(pointLeft,pointRight)
-            Width_of_two_eyes_in_cm= 6.3
-            focal_length_of_your_pc = 1000  #NOTE:modify here with above value you got above in mode 0 
-            distance_between_head_and_camera = (Width_of_two_eyes_in_cm*focal_length_of_your_pc)/width_of_two_eyes_in_pixels
-            return distance_between_head_and_camera 
-
 if __name__ == '__main__':
-    developer_main(calibration_mode =1)
+    get_distance(calibration_mode =0)
