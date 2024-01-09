@@ -53,7 +53,7 @@ DISTANCE_TO_FACE_RECOGNITION = 30 #cm
 DISTANCE_TO_NO_ACTION = 65 #cm
 DISTANCE_TO_PATROL_MODE = range(int(DISTANCE_TO_FACE_RECOGNITION+5), int(DISTANCE_TO_NO_ACTION-5)) # 35 to 60 cm
 
-ENHANCED_MODE = 1 #NOTE:set this parameter to one if you want to use both facial recognition and finger print reader. 
+ENHANCED_MODE = 0 #NOTE:set this parameter to one if you want to use both facial recognition and finger print reader. 
 
 #---NOTE: start patrol mode variable define and initialize, Loading Haar cascades for detecting faces and bodies  --------------------------------------------
 
@@ -175,11 +175,11 @@ while True:
         
 
             # Check for both True and False matches
-            if True in matches and False in matches:
-                print("watch out")
+            # if True in matches and False in matches:
+            #     print("watch out")
 
             # Check for True match and perform actions if found
-            elif True in matches:
+            if True in matches:
                 # Get the index of the best match
                 best_match_index = matches.index(True)
                 name = Bio_DataBase.known_face_names[best_match_index]
