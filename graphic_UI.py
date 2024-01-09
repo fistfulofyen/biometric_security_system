@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import filedialog
 import subprocess
 import face_recognition
+from tkinter import PhotoImage
 
 # Define script_text as a global variable
 script_text = None
@@ -21,11 +22,11 @@ def on_modify_button_click():
     script_text.pack(pady=10)
 
     # Create a button for adding friend names
-    add_friend_button = tk.Button(modify_window, text="Add Friend Names", command=add_friend_names)
+    add_friend_button = tk.Button(modify_window, text="Add Friend Name", command=add_friend_names)
     add_friend_button.pack(side=tk.LEFT, padx=10)
 
     # Create a button for uploading and adding a picture
-    adding_new_person_button = tk.Button(modify_window, text="Adding new person", command=adding_new_person)
+    adding_new_person_button = tk.Button(modify_window, text="Add New Person", command=adding_new_person)
     adding_new_person_button.pack(side=tk.LEFT, padx=10)
 
     # Create a button to save all modifications
@@ -100,13 +101,20 @@ with open("function/Bio_DataBase.py", "r") as script_file:
 
 # Create the main window
 root = tk.Tk()
-root.title("Face Recognition Script Interface")
+root.title("HomeLand Security System Interface")
 
-# Set the window size to 400x400
-root.geometry("400x400")
+# Set the window size to  (height x width)
+root.geometry("500x350")
+
+# Load the background image
+background_image = PhotoImage(file="Supplementary\BGP.png")  # Update the path accordingly
+
+# Create a label with the background image
+background_label = tk.Label(root, image=background_image)
+background_label.place(relwidth=1, relheight=1)  # Cover the entire window with the label
 
 # Create a button to run the external script
-run_button = tk.Button(root, text="Run face_recognition_main.py", command=on_run_button_click)
+run_button = tk.Button(root, text="Activate The System", command=on_run_button_click)
 run_button.pack(pady=10)
 
 # Create a button to modify the script
