@@ -44,13 +44,14 @@ def get_distance(calibration_mode =1):
                 focal_length_of_your_pc = 1000 
                 distance_between_head_and_camera = (Width_of_two_eyes_in_cm*focal_length_of_your_pc)/width_of_two_eyes_in_pixels
                 print(distance_between_head_and_camera)
+                return distance_between_head_and_camera 
 
-
-        cv2.imshow("Image",img)
-        if cv2.waitKey(1) == ord('q'):
-            break
+        if calibration_mode ==0:
+            cv2.imshow("Image",img)
+            if cv2.waitKey(1) == ord('q'):
+                break
 
 
 
 if __name__ == '__main__':
-    get_distance(calibration_mode =0)
+    get_distance(calibration_mode =1)
