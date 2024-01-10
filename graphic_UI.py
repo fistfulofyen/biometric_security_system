@@ -1,8 +1,8 @@
 import tkinter as tk
-from tkinter import filedialog
 import subprocess
-import face_recognition
-from tkinter import PhotoImage
+from tkinter import PhotoImage,messagebox, filedialog
+import os
+import webbrowser
 
 # Define script_text as a global variable
 script_text = None
@@ -34,7 +34,6 @@ def on_modify_button_click():
     save_changes_button.pack(side=tk.LEFT, padx=10)
 
 
-
 def save_changes():
     global script_text  # Use the global variable script_text
     # Get all the text from script_text and save it to the original file
@@ -43,7 +42,7 @@ def save_changes():
         script_file.write(modified_script)
 
     # Display success message
-    success_label.config(text="Changes saved successfully")
+    messagebox.showinfo("Modification", "Changes saved successfully")
 
 def add_friend_names():
     # Open a new window for adding friend names
@@ -65,6 +64,8 @@ def add_friend_names():
 
 def insert_friend_name(friend_name):
     global script_text  # Use the global variable script_text
+    # Capitalize the first letter of friend_name
+    friend_name = friend_name.capitalize()
     # Insert the new known face name code into the script_text
     code = f'\nknown_friend_names.append("{friend_name}")'
     script_text.insert(tk.END, code)
@@ -77,9 +78,9 @@ def adding_new_person():
 
     if file_path:
         # Getting the name of the picture
-        the_name_of_the_pic = get_variable_name(file_path)
+        the_name_of_the_pic = get_variable_name(file_path).upper()  # Convert to uppercase
         # Getting the name of the picture with the first letter capitalized and the rest in lowercase
-        the_name_of_the_pic_cap = get_variable_name(file_path).capitalize()
+        the_name_of_the_pic_cap = the_name_of_the_pic.capitalize()
 
         # Generate code for loading and encoding the image
         code = f'{the_name_of_the_pic}_image = face_recognition.load_image_file("{file_path}")\n'
@@ -95,6 +96,33 @@ def get_variable_name(file_path):
     # Extract the file name without extension as a variable name
     return file_path.split("/")[-1].split(".")[0]
 
+def on_check_recordings_button_click():
+    recording_folder = os.getcwd()  # Use the current working directory
+
+    # Get all mp4 files in the recordings folder
+    mp4_files = [file for file in os.listdir(recording_folder) if file.endswith(".mp4")]
+
+    if mp4_files:
+        # Display a message to the user about available recordings
+        message = "Recordings found:\n\n" + "\n".join(mp4_files)
+        messagebox.showinfo("Recordings", message)
+
+        # Allow the user to select and play a recording
+        selected_file = filedialog.askopenfilename(
+            initialdir=recording_folder,
+            title="Select Recording",
+            filetypes=[("MP4 files", "*.mp4")]
+        )
+
+        if selected_file:
+            webbrowser.open(selected_file)
+    else:
+        # Display a message if no recordings are found
+        messagebox.showinfo("Recordings", "No recordings found.")
+
+
+#%% main window button location
+        
 # Load the content of the Bio_DataBase script
 with open("function/Bio_DataBase.py", "r") as script_file:
     face_recognition_script_content = script_file.read()
@@ -115,15 +143,18 @@ background_label.place(relwidth=1, relheight=1)  # Cover the entire window with 
 
 # Create a button to run the external script
 run_button = tk.Button(root, text="Activate The System", command=on_run_button_click)
-run_button.pack(pady=10)
+run_button.grid(row=0, column=0, pady=10, padx=(0, 10), sticky='w')  # Adjusted to grid and anchored to the right
 
 # Create a button to modify the script
-modify_button = tk.Button(root, text="Modify Bio_DataBase.py", command=on_modify_button_click)
-modify_button.pack(pady=10)
+modify_button = tk.Button(root, text="Modify Bio Data Base", command=on_modify_button_click)
+modify_button.grid(row=1, column=0, pady=10, padx=(0, 10), sticky='w')  # Adjusted to grid and anchored to the right
 
-# Create a label for displaying success messages
-success_label = tk.Label(root, text="")
-success_label.pack(pady=10)
+# Create a button to check patrol mode recordings
+check_recordings_button = tk.Button(root, text="Check Recordings", command=on_check_recordings_button_click)
+check_recordings_button.grid(row=2, column=0, pady=10, padx=(0, 10), sticky='w')  # Adjusted to grid and anchored to the right
+
+
+
 
 # Start the main loop
 root.mainloop()
