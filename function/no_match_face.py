@@ -2,6 +2,7 @@ import function.user_interact as user_interact
 import function.Bio_DataBase as Bio_DataBase
 import function.control_hardware as control_hardware
 
+
 # It asks the guest to speak their name, recognizing it using 
 # speech recognition. If the name matches a known friend'name defined in DataBase, the system asks whom they seek. 
 # After recognizing the sought person's name, it checks if it's in the known name of the family. If yes, it welcomes 
@@ -12,8 +13,7 @@ import function.control_hardware as control_hardware
 def FUNC_asking_guest_tell_family_member_name():
      
     control_hardware.turn_on_LED('B')
-    user_interact.convert_to_audio("sorry I cannot recognize your face")
-    user_interact.convert_to_audio("please speak your name")
+    user_interact.convert_to_audio("sorry I cannot recognize your face, please speak your name")
 
     #asking the stranger to provide a their name and check from friend database. 
     try:
@@ -24,9 +24,7 @@ def FUNC_asking_guest_tell_family_member_name():
     print(friend_name)
 
     if friend_name in Bio_DataBase.known_friend_names: #if the stranger knows the name of the family 
-        user_interact.convert_to_audio("Hi")
-        user_interact.convert_to_audio(friend_name)
-        user_interact.convert_to_audio("are you looking for someone? if so, please speak their name")
+        user_interact.convert_to_audio("Hi,"+friend_name+",are you looking for someone? if so, please speak their name")
         
         #asking the stranger to provide a name from database. 
         try:
@@ -38,11 +36,8 @@ def FUNC_asking_guest_tell_family_member_name():
         print(looking_name)
         if looking_name in Bio_DataBase.known_face_names: #if the stranger knows the name of the family 
             control_hardware.turn_on_LED('G')
-            user_interact.convert_to_audio("welcome")
-            user_interact.convert_to_audio(friend_name)
-            user_interact.convert_to_audio("I will contact")
-            user_interact.convert_to_audio(looking_name)
-            user_interact.convert_to_audio("for your right now.")
+            user_interact.convert_to_audio("welcome,"+friend_name+",I will contact,"+looking_name+",for your right now.")
+
             
             #future adding: sending email to the owner, and a capture of the face in cam, if owner reply YES. then let the guest in 
             #future adding: ask the stanger to register their face in GUEST_LIST so that next time, they can login directly

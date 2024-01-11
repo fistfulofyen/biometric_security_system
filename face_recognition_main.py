@@ -4,6 +4,7 @@ import numpy as np
 import time
 import datetime
 import cvzone
+import threading
 from cvzone.FaceMeshModule import FaceMeshDetector
 import function.Bio_DataBase as Bio_DataBase
 import function.no_match_face as no_match_face
@@ -191,8 +192,7 @@ while True:
                         finger_check_pass=control_hardware.check_finger_print('check','com5')
 
                         if finger_check_pass:
-                            user_interact.convert_to_audio("Welcome")
-                            user_interact.convert_to_audio(name)
+                            user_interact.convert_to_audio("Welcome,"+name+",having a great stay")
                             control_hardware.open_the_door('com5')
                             # Reset the welcome message timer
                             start_time = time.time()
@@ -210,8 +210,9 @@ while True:
                         control_hardware.turn_on_LED('G')
                         
                         # Speak a welcome message and the name of the person
-                        user_interact.convert_to_audio("Welcome")
-                        user_interact.convert_to_audio(name)
+                        #user_interact.convert_to_audio("Welcome,"+name+",having a great stay")
+                        user_interact.convert_to_audio("Welcome,"+name+",having a great stay")
+
                         # Reset the welcome message timer
                         start_time = time.time()
                         # Set the run_once flag to avoid repeating the welcome message
