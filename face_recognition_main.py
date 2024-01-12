@@ -9,13 +9,14 @@ import function.Bio_DataBase as Bio_DataBase
 import function.no_match_face as no_match_face
 import function.user_interact as user_interact
 import function.control_hardware as control_hardware
+import function.face_depth_measure as face_depth_measure
 
 
 # This is a demo of running face recognition on live video from the webcam. it includes some basic performance tweaks 
 # to make things run a lot faster:
 
-#   1. Process each video frame at 1/4 resolution (though still display it at full resolution)
-#   2. Only detect faces in every other frame of video.
+# 1. Process each video frame at 1/4 resolution (though still display it at full resolution)
+# 2. Only detect faces in every other frame of video.
 
 # This code imports several libraries and defines variables that will be used in facial recognition, patrol mode, 
 # and face-depth measurements. It then creates a loop that runs continuously, taking video frames from a webcam and 
@@ -28,13 +29,16 @@ import function.control_hardware as control_hardware
 # the code stops recording after a delay.
 
 
+#----------------------------------------------------------------------------------------------------------------------------------------------
+# IMPORTANT!!! NOTE: before running the main script, using face_depth_measure.py under folder function to calibrate the FOCAL_LENGTH_OF_YOUR_PC
+
+
+#---------------------
+# Initialize variables
+#---------------------
 # Get a reference to webcam #0 (the default one)
 video_capture = cv2.VideoCapture(0)
 
-
-#-------------------------------------------------------
-# NOTE: Initialize variables
-#-------------------------------------------------------
 face_locations = []
 face_encodings = []
 face_names = []
@@ -52,7 +56,7 @@ current_time = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
 
 
 #-------------------------------------------------------
-# NOTE: Critical Parameters 
+# Critical Parameters 
 #-------------------------------------------------------
 DISTANCE_TO_FACE_RECOGNITION = 40 #cm
 DISTANCE_TO_NO_ACTION = 65 #cm
@@ -60,12 +64,9 @@ DISTANCE_TO_PATROL_MODE = range(int(DISTANCE_TO_FACE_RECOGNITION+5), int(DISTANC
 
 ENHANCED_MODE = False # NOTE:set this parameter to True if you want to use both facial recognition and finger print reader. 
 
-FOCAL_LENGTH_OF_YOUR_PC = 540 # NOTE: using face_depth_measure.py under folder function to find the focal_length of your own webcam
-                              # NOTE: 540 for desktop, 1000 for laptop
-
 
 #-------------------------------------------------------
-# NOTE: start patrol mode variable define and initialize, Loading Haar cascades for detecting faces and bodies  
+# start patrol mode variable define and initialize, Loading Haar cascades for detecting faces and bodies  
 #-------------------------------------------------------
 face_cascade = cv2.CascadeClassifier(
     cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
@@ -84,31 +85,17 @@ detector = FaceMeshDetector(maxFaces=1)
 
 while True:
 #----------------------------------------------------------------------------------------------------------------------
-# NOTE: start checking if face is close enough for face recognition; printing out the distance between face and camera 
+# start checking if face is close enough for face recognition; printing out the distance between face and camera 
 #----------------------------------------------------------------------------------------------------------------------
-    success,img = video_capture.read()
-    img, faces = detector.findFaceMesh(img,draw=False)
 
-    if faces:
-        face = faces[0]
-        pointLeft = face[145]
-        pointRight = face[374]
-        
-        cv2.line(img,pointLeft,pointRight,(0,200,0),3)
-        cv2.circle(img,pointLeft,5,(255,0,255),cv2.FILLED)
-        cv2.circle(img,pointRight,5,(255,0,255),cv2.FILLED)
+    distance_between_head_and_camera = face_depth_measure.get_distance(video_capture, detector)
 
-        width_of_two_eyes_in_pixels, _ = detector.findDistance(pointLeft,pointRight)
-        Width_of_two_eyes_in_cm= 6.3
-        FOCAL_LENGTH_OF_YOUR_PC = 600
-        distance_between_head_and_camera = (Width_of_two_eyes_in_cm*FOCAL_LENGTH_OF_YOUR_PC)/width_of_two_eyes_in_pixels
-
+#------------------------------------------------------------------------------------------------
+# patrol mode starts here, if a person is in range of DISTANCE_TO_PATROL_MODE from the camera  
+#------------------------------------------------------------------------------------------------
     # Grab a single frame of video
     ret, frame = video_capture.read()
 
-#------------------------------------------------------------------------------------------------
-# NOTE patrol mode starts here, if a person is in range of DISTANCE_TO_PATROL_MODE from the camera  
-#------------------------------------------------------------------------------------------------
     if DISTANCE_TO_PATROL_MODE.start <= distance_between_head_and_camera <= DISTANCE_TO_PATROL_MODE.stop-1:
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         faces = face_cascade.detectMultiScale(gray, 1.3, 5)
@@ -144,7 +131,7 @@ while True:
 
         
 #----------------------------------------------------------------
-# NOTE: face recognition based security camera system starts here 
+# face recognition based security camera system starts here 
 #----------------------------------------------------------------
     
     # Only process every other frame of video to save time
@@ -179,7 +166,7 @@ while True:
             #     print("watch out")
             
             #--------------------------------------------------------
-            # NOTE: Check for True match and perform actions if found
+            # Check for True match and perform actions if found
             #--------------------------------------------------------
             if True in matches:
                 # Get the index of the best match
@@ -188,8 +175,9 @@ while True:
 
                 # Perform actions if it's the first time the face is detected or after 1 minute
                 if run_once_true == 0 or time.time() - start_time >= 60:
+
                     #-------------------------------------------------------------------
-                    # NOTE: for enhanced_mode, the finger print reader will be activated
+                    # for enhanced_mode, the finger print-reader will be activated
                     #-------------------------------------------------------------------
                     if ENHANCED_MODE:
                         user_interact.convert_to_audio("to further check your ID, scan your finger within 5 seconds")
@@ -227,7 +215,7 @@ while True:
                     run_once_true = 0
 
             #---------------------------------------------------
-            # NOTE: Check for False match and perform actions if found
+            # Check for False match and perform actions if found
             #---------------------------------------------------
             elif False in matches:
                 # Perform actions if it's the first time no match was found or after 1 minute
@@ -240,7 +228,7 @@ while True:
                     # Start recording video for 5 seconds
                     face_reco_mode_name = "guest-face-"
                     out = cv2.VideoWriter(f"{face_reco_mode_name}{current_time}.mp4", recoding_fourcc, 20, recoding_frame_size)
-                    print("Started Recording!")
+                    print("Started Recording guest-face")
                     Start_Recording = 1
                     # Set the run_once flag to avoid repeating the no match message
                     run_once_false = 1
@@ -248,13 +236,12 @@ while True:
                 elif run_once_false == 1 and (time.time() - start_time <= 5): #NOTE:longer video, bigger num here
                     # Continue recording video for 5 seconds
                     out.write(frame)
-                    print('Recording...')
 
                 elif run_once_false == 1 and (time.time() - start_time > 5):
                     if Start_Recording == 1:
                         # Stop recording video after 5 seconds
                         out.release()
-                        print('Stop Recording!!')
+                        print('Stop Recording guest-face')
                         # Reset the run_once_false flag after 60 seconds
                         run_once_false = 1   #changed 
                         Start_Recording = 0
@@ -265,7 +252,7 @@ while True:
                         run_once_false = 0
                     else:
                         out.release()
-                        print('Stop Recording!')
+                        print('Stop Recording')
                         run_once_false = 0
 
             else:
@@ -282,7 +269,7 @@ while True:
     process_this_frame = not process_this_frame
 
 #-------------------------------------------------------------------------------------   
-# NOTE: adding the little red rectangle with matching name in the live camera frame 
+# adding the little red rectangle with matching name in the live camera frame 
 #-------------------------------------------------------------------------------------   
     if distance_between_head_and_camera <= (DISTANCE_TO_FACE_RECOGNITION + 10):
     # Display the results
