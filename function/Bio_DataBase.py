@@ -1,5 +1,6 @@
 import face_recognition
 # Load a sample picture and learn how to recognize it.s
+print("Bio_DataBase module - activate")
 
 DYLAN_image = face_recognition.load_image_file("family_face\DYLAN.jpg")
 DYLAN_face_encoding = face_recognition.face_encodings(DYLAN_image)[0]

@@ -1,6 +1,7 @@
 import serial
 import time
 import itertools
+print("control_hardware module - activate")
 
 #NOTE: for my ROG laptop, pulg arduino in the USB next to the arrow right key, which is com5
 

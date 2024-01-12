@@ -1,13 +1,13 @@
 import cv2
-print(cv2.__version__)
-import cvzone
+#print(cv2.__version__)
+print("face_depth_measure module - activate")
+#import cvzone
 from cvzone.FaceMeshModule import FaceMeshDetector
 
 #--------------------------------------------------------------------------------------
 # NOTE: the Global parameter you need to calibrate, follow the step in "main" at bottom
 #--------------------------------------------------------------------------------------
-
-FOCAL_LENGTH_OF_YOUR_PC = 600
+FOCAL_LENGTH_OF_YOUR_PC = 450
 
 
 #-------------------------------------------------------

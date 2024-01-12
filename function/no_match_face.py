@@ -1,6 +1,7 @@
 import function.user_interact as user_interact
 import function.Bio_DataBase as Bio_DataBase
 import function.control_hardware as control_hardware
+print("no_match_face module - activate")
 
 
 # It asks the guest to speak their name, recognizing it using 

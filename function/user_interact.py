@@ -7,6 +7,8 @@ import time
 import threading
 from playsound import playsound  # pip install playsound==1.2.2
 
+print("user_interact module - activate")
+
 
 
 #NOTE: convert audio input from mic to a sting 
