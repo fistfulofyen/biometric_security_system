@@ -6,15 +6,20 @@ from cvzone.FaceMeshModule import FaceMeshDetector
 video_capture = cv2.VideoCapture(0)
 
 
+#-------------------------------------------------------
+# this is the source code for the face_depth measurement
+#-------------------------------------------------------
+
+
 def get_distance(calibration_mode =1):
 
-    #NOTE:for every new camera or laptop with webcam that you use, you need to calibrate the "focal_length_of_your_pc" parameter,
-    #since every camera has different internal parameter of their only. in order to do that:
+    #NOTE:for every new camera or laptop with webcam that you use, you need to calibrate the "FOCAL_LENGTH_OF_YOUR_PC" parameter,
+    # since every camera has different internal parameter of their only. in order to do that:
     # first: set the camera around 50 cm away from your face.
     # second: set the calibration_mode to 0 to start the measurement process. 
-    # finally: change the "focal_length_of_your_pc" parameter to the reading printed out. 
+    # finally: change the "FOCAL_LENGTH_OF_YOUR_PC" parameter to the reading printed out. 
 
-    #calibration_mode = 1  # NOTE: setting this to 0 to initiate the focal length of your own pc and then modify focal_length_of_your_pc
+    #calibration_mode = 1  # NOTE: setting this to 0 to initiate the focal length of your own pc and then modify FOCAL_LENGTH_OF_YOUR_PC
     detector = FaceMeshDetector(maxFaces=1)
     while True :
         success,img = video_capture.read()
@@ -41,10 +46,9 @@ def get_distance(calibration_mode =1):
                 print(test_out_focal_length_for_below) #NOTE: modify the value below in function
             elif calibration_mode ==1:
                 # finding depth 
-                focal_length_of_your_pc = 1000 
-                distance_between_head_and_camera = (Width_of_two_eyes_in_cm*focal_length_of_your_pc)/width_of_two_eyes_in_pixels
+                FOCAL_LENGTH_OF_YOUR_PC = 540 
+                distance_between_head_and_camera = (Width_of_two_eyes_in_cm*FOCAL_LENGTH_OF_YOUR_PC)/width_of_two_eyes_in_pixels
                 print(distance_between_head_and_camera)
-                return distance_between_head_and_camera 
 
         if calibration_mode ==0:
             cv2.imshow("Image",img)
