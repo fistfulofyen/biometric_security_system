@@ -135,7 +135,7 @@ root.title("HomeLand Security System Interface")
 root.geometry("500x350")
 
 # Load the background image
-background_image = PhotoImage(file="Supplementary\BGP.png")  # Update the path accordingly
+background_image = PhotoImage(file="Supplementary\document\BGP.png")  # Update the path accordingly
 
 # Create a label with the background image
 background_label = tk.Label(root, image=background_image)
