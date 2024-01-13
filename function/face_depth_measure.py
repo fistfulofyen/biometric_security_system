@@ -7,7 +7,7 @@ from cvzone.FaceMeshModule import FaceMeshDetector
 #--------------------------------------------------------------------------------------
 # NOTE: the Global parameter you need to calibrate, follow the step in "main" at bottom
 #--------------------------------------------------------------------------------------
-FOCAL_LENGTH_OF_YOUR_PC = 450
+FOCAL_LENGTH_OF_YOUR_PC = 1000  # NOTE : 1000 for laptop, 450 for desktop
 
 
 #-------------------------------------------------------
@@ -52,7 +52,7 @@ def calibrating_camera(calibration_mode,focal_length_of_your_pc_input):
             if cv2.waitKey(1) == ord('q'):
                 break
 
-def get_distance(video_capture, detector,FOCAL_LENGTH_OF_YOUR_PC=FOCAL_LENGTH_OF_YOUR_PC):
+def get_distance(video_capture, detector,focal_length_of_your_pc_input):
     success, img = video_capture.read()
     img, faces = detector.findFaceMesh(img, draw=False)
 
@@ -69,7 +69,7 @@ def get_distance(video_capture, detector,FOCAL_LENGTH_OF_YOUR_PC=FOCAL_LENGTH_OF
 
         width_of_two_eyes_in_pixels, _ = detector.findDistance(pointLeft, pointRight)
         Width_of_two_eyes_in_cm = 6.3
-        distance_between_head_and_camera = (Width_of_two_eyes_in_cm * FOCAL_LENGTH_OF_YOUR_PC) / width_of_two_eyes_in_pixels
+        distance_between_head_and_camera = (Width_of_two_eyes_in_cm * focal_length_of_your_pc_input) / width_of_two_eyes_in_pixels
 
 
     return distance_between_head_and_camera

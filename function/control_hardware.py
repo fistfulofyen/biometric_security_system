@@ -3,9 +3,12 @@ import time
 import itertools
 print("control_hardware module - activate")
 
-#NOTE: for my ROG laptop, pulg arduino in the USB next to the arrow right key, which is com5
+#-------------------------------------------------------
+# Critical Parameters 
+#-------------------------------------------------------
+USB_PORT = "com5" # NOTE: for my ROG laptop, plug arduino in the USB next to the arrow right key, which is com5
 
-def turn_on_LED(color, port='com5', baudrate=9600): 
+def turn_on_LED(color, port=USB_PORT, baudrate=9600): 
     arduinoData = None
     error_message_printed = False
 
@@ -35,8 +38,7 @@ def turn_on_LED(color, port='com5', baudrate=9600):
             print("arduino not connected. Cannot send command.")
             error_message_printed = True
 
-
-def rotate_motor(open_or_close_the_lock, port='com5', baudrate=9600): 
+def rotate_motor(open_or_close_the_lock, port=USB_PORT, baudrate=9600): 
     arduinoData = None
     error_message_printed = False
 
@@ -64,8 +66,7 @@ def rotate_motor(open_or_close_the_lock, port='com5', baudrate=9600):
             print("arduino not connected. Cannot send command.")
             error_message_printed = True
 
-
-def check_finger_print(check_or_not, port='com5', baudrate=9600, duration=10):
+def check_finger_print(check_or_not, port=USB_PORT, baudrate=9600, duration=10):
     finger_check_pass = 0
     arduino_data = None
     error_message_printed = False
@@ -94,13 +95,11 @@ def check_finger_print(check_or_not, port='com5', baudrate=9600, duration=10):
             if "No finger detected" in response:
                 print("No finger detected")
 
-
             elif "Found a print match!" in response:
                 print("Found a print match!")
                 finger_check_pass = 1
                 return finger_check_pass
-
-            
+        
             elif "Did not find a match" in response:
                 print("Did not find a match")
     
@@ -108,9 +107,7 @@ def check_finger_print(check_or_not, port='com5', baudrate=9600, duration=10):
         arduino_data.close()
 
 
-
-
-def open_the_door(port='com5',baudrate = '9600'):
+def open_the_door(port=USB_PORT,baudrate = '9600'):
     rotate_motor('open',port,baudrate)
     turn_on_LED('G',port,baudrate)
     turn_on_LED('R',port,baudrate)
@@ -119,10 +116,10 @@ def open_the_door(port='com5',baudrate = '9600'):
 
 if __name__ == '__main__':
 
-    finger_check_pass=check_finger_print('check','com5')
+    finger_check_pass=check_finger_print('check',USB_PORT)
 
     if finger_check_pass:
-        open_the_door('com5')
+        open_the_door(USB_PORT)
 
     #open_the_door('com5')
 
