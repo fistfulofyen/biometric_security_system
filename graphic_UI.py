@@ -109,7 +109,7 @@ def on_check_recordings_button_click():
 
         # Allow the user to select and play a recording
         selected_file = filedialog.askopenfilename(
-            initial_dir=recording_folder,
+            initialdir=recording_folder,
             title="Select Recording",
             filetypes=[("MP4 files", "*.mp4")]
         )
