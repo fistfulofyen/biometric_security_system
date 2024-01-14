@@ -9,10 +9,10 @@ recognition of known family members based on their stored facial features.
 """
 
 # Load a sample picture and learn how to recognize it
-DYLAN_image = face_recognition.load_image_file("family_face\DYLAN.jpg")
+DYLAN_image = face_recognition.load_image_file("Supplementary/family_face/DYLAN.jpg")
 DYLAN_face_encoding = face_recognition.face_encodings(DYLAN_image)[0]
 
-JACKSON_image = face_recognition.load_image_file("family_face\Jackson.jpg")
+JACKSON_image = face_recognition.load_image_file("Supplementary/family_face/Jackson.jpg")
 JACKSON_face_encoding = face_recognition.face_encodings(JACKSON_image)[0]
 
 # Create arrays of known face encodings and their names
