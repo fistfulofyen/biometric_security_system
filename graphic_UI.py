@@ -2,13 +2,80 @@ import tkinter as tk
 import subprocess
 from tkinter import PhotoImage,messagebox, filedialog
 import os
+import sys
 import webbrowser
+
+"""
+This script defines a graphical user interface (GUI) using the tkinter library for a HomeLand 
+Security System. The GUI provides buttons to activate the system, modify the Bio_DataBase script, 
+and check patrol mode recordings. It incorporates functionalities to interact with the Bio_DataBase 
+script, enabling the addition of friend names, new persons, and modifications to the script. Additionally, 
+it allows the user to check and play recordings from patrol mode.
+"""
 
 # Define script_text as a global variable
 script_text = None
 
 def on_run_button_click():
+    # Create a custom prompt window
+    calibration_prompt = tk.Toplevel(root)
+    calibration_prompt.title("Calibration Warning")
+
+    # Add calibration message label
+    calibration_message = "Make sure to calibrate FOCAL_LENGTH_OF_YOUR_PC and USB_PORT before running the program."
+    message_label = tk.Label(calibration_prompt, text=calibration_message)
+    message_label.pack(pady=10)
+
+    # Add buttons to navigate to control_hardware.py and face_depth_measure.py
+    control_hardware_button = tk.Button(calibration_prompt, text="Calibrate USB_PORT", command=calibrate_usb_port)
+    control_hardware_button.pack(side=tk.LEFT, padx=10)
+
+    face_depth_measure_button = tk.Button(calibration_prompt, text="Calibrate FOCAL_LENGTH_OF_YOUR_PC", command=calibrate_focal_length)
+    face_depth_measure_button.pack(side=tk.LEFT, padx=10)
+
+    # Add an "OK" button to directly run the script
+    ok_button = tk.Button(calibration_prompt, text="OK", command=run_main_script)
+    ok_button.pack(side=tk.LEFT, padx=10)
+
+def run_main_script():
+    # Open control_hardware.py script or relevant calibration tool
     subprocess.run(["python", "face_recognition_main.py"])
+
+def calibrate_usb_port():
+    # Get the absolute path to control_hardware.py
+    control_hardware_path = os.path.abspath("function/control_hardware.py")
+
+    # Determine the default text editor based on the operating system
+    if sys.platform.startswith('win'):
+        editor_command = 'notepad'
+    elif sys.platform.startswith('darwin'):
+        editor_command = 'open -t'
+    elif sys.platform.startswith('linux'):
+        editor_command = 'xdg-open'
+    else:
+        raise RuntimeError('Unsupported operating system')
+
+    # Open control_hardware.py script in the default text editor
+    subprocess.run([editor_command, control_hardware_path])
+
+
+def calibrate_focal_length():
+    # Get the absolute path to face_depth_measure.py
+    face_depth_measure_path = os.path.abspath("function/face_depth_measure.py")
+
+    # Determine the default text editor based on the operating system
+    if sys.platform.startswith('win'):
+        editor_command = 'notepad'
+    elif sys.platform.startswith('darwin'):
+        editor_command = 'open -t'
+    elif sys.platform.startswith('linux'):
+        editor_command = 'xdg-open'
+    else:
+        raise RuntimeError('Unsupported operating system')
+
+    # Open face_depth_measure.py script in the default text editor
+    subprocess.run([editor_command, face_depth_measure_path])
+
 
 def on_modify_button_click():
     global script_text  # Declare script_text as a global variable
