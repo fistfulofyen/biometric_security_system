@@ -3,6 +3,13 @@ import time
 import itertools
 print("control_hardware module - activate")
 
+"""
+This script is designed to control hardware components, likely 
+connected to an Arduino via a serial connection. It provides functions to manipulate LEDs, rotate a 
+motor (presumably to open or close a lock), and check fingerprint data for authentication. The critical 
+parameters, such as the USB port and baudrate, are specified at the beginning of the script. 
+"""
+
 #-------------------------------------------------------
 # Critical Parameters 
 #-------------------------------------------------------

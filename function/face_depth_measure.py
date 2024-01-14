@@ -1,8 +1,13 @@
-import cv2
 #print(cv2.__version__)
+import cv2
+from cvzone.FaceMeshModule import FaceMeshDetector #import cvzone
 print("face_depth_measure module - activate")
-#import cvzone
-from cvzone.FaceMeshModule import FaceMeshDetector
+
+"""
+The script utilizes the OpenCV library and the 
+FaceMeshDetector from the cvzone library to measure the depth of a face from a webcam. 
+The calibration of the focal length is an essential step for accurate distance measurements.
+"""
 
 #--------------------------------------------------------------------------------------
 # NOTE: the Global parameter you need to calibrate, follow the step in "main" at bottom
@@ -10,12 +15,13 @@ from cvzone.FaceMeshModule import FaceMeshDetector
 FOCAL_LENGTH_OF_YOUR_PC = 1000  # NOTE : 1000 for laptop, 450 for desktop
 
 
-#-------------------------------------------------------
-# this is the source code for the face_depth measurement
-#-------------------------------------------------------
 video_capture = cv2.VideoCapture(0)
 
 def calibrating_camera(calibration_mode,focal_length_of_your_pc_input):
+    """This function initiates a webcam feed and draws a line between specific facial landmarks, 
+    representing the width of the face. It calculates the width of the face in pixels and provides 
+    a calculated focal length for the camera if in calibration mode (calibration_mode=0). The user 
+    is prompted to place their head around 50 cm away from the camera during calibration."""
 
     #calibration_mode = 1  # NOTE: setting this to 0 to initiate the focal length of your own pc and then modify FOCAL_LENGTH_OF_YOUR_PC
     detector = FaceMeshDetector(maxFaces=1)
@@ -53,6 +59,10 @@ def calibrating_camera(calibration_mode,focal_length_of_your_pc_input):
                 break
 
 def get_distance(video_capture, detector,focal_length_of_your_pc_input):
+    """This function reads frames from the webcam, detects facial landmarks, 
+    and calculates the distance between the head and the camera based on 
+    the calibrated focal length. The calculated distance is returned."""
+    
     success, img = video_capture.read()
     img, faces = detector.findFaceMesh(img, draw=False)
 

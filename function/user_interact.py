@@ -1,6 +1,5 @@
 import speech_recognition as sr
 import spacy
-
 from gtts import gTTS
 import os
 import time
@@ -9,17 +8,16 @@ from playsound import playsound  # pip install playsound==1.2.2
 
 print("user_interact module - activate")
 
+"""
+The script serves as an interaction module for an application, providing functions for speech 
+recognition and converting text to speech. It utilizes the SpeechRecognition, spaCy, gTTS 
+(Google Text-to-Speech), os, time, threading, and playsound libraries to enable voice-based interaction.
+"""
 
-
-#NOTE: convert audio input from mic to a sting 
-
-def main():
-    print("this is the interaction module for the application")
-#---start---------------------------------------------------
-
-
+#-----------------------------------
+# extract person name from sentences 
+#-----------------------------------
 nlp = spacy.load("en_core_web_sm")
-
 def extract_name(text):
     doc = nlp(text)
     for ent in doc.ents:
@@ -27,6 +25,9 @@ def extract_name(text):
             return ent.text
     return None
 
+#----------------------------------------
+# convert audio input from mic to a sting 
+#----------------------------------------
 def recognize_speech():
     recognizer = sr.Recognizer()
     recognizer.energy_threshold = 200
@@ -47,11 +48,11 @@ def recognize_speech():
             except sr.RequestError:
                 convert_to_audio("Speech service down")
                 break  # Exit the loop if there is a RequestError
-#---end--------------------------------------------------------
 
-#---start--------------------------------------------------------
-#convert text input to a mp3 audio which pc speaker play 
 
+#--------------------------------------------------------
+# convert text input to a mp3 audio which pc speaker play 
+#--------------------------------------------------------
 
 def play_audio_async(message):
     """Function to play audio in a separate thread."""
@@ -79,7 +80,7 @@ def convert_to_audio(text):
         os.remove(audio_file)
     except PermissionError:
         print(f"PermissionError: Could not remove '{audio_file}'")
-#---end--------------------------------------------------------------
+
 
 if __name__ == '__main__':
-    main()
+    extract_name("hi,I am Dylan!")

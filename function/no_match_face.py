@@ -3,13 +3,14 @@ import function.Bio_DataBase as Bio_DataBase
 import function.control_hardware as control_hardware
 print("no_match_face module - activate")
 
-
-# It asks the guest to speak their name, recognizing it using 
-# speech recognition. If the name matches a known friend'name defined in DataBase, the system asks whom they seek. 
-# After recognizing the sought person's name, it checks if it's in the known name of the family. If yes, it welcomes 
-# the guest, turns on a green LED, and suggests future features. If not, it signals an error with a red LED and 
-# apologizes for not finding the sought person. The code includes error handling and potential features like email notifications 
-# and face registration.
+"""
+The script is designed to interact with a guest by utilizing speech 
+recognition and controlling hardware components based on the recognized information. The functionality 
+includes asking the guest to speak their name, checking if the name matches a known friend in the database, 
+prompting the guest to provide the name of the person they are looking for, and further verifying if that 
+person is a known family member. The script handles errors and incorporates potential features like email 
+notifications, face registration, and emotion or gesture monitoring for enhanced security.
+"""
 
 def FUNC_asking_guest_tell_family_member_name():
      
@@ -41,8 +42,8 @@ def FUNC_asking_guest_tell_family_member_name():
 
             
             #future adding: sending email to the owner, and a capture of the face in cam, if owner reply YES. then let the guest in 
-            #future adding: ask the stanger to register their face in GUEST_LIST so that next time, they can login directly
-            #future adding: emotion or guesture moitoring, if a known face is hijacked by a stranger 
+            #future adding: ask the stranger to register their face in GUEST_LIST so that next time, they can login directly
+            #future adding: emotion or gesture monitoring, if a known face is hijacked by a stranger 
 
         else:  #if the stranger DOES NOT knows the name of the family
             control_hardware.turn_on_LED('R')

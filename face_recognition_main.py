@@ -11,23 +11,23 @@ import function.user_interact as user_interact
 import function.control_hardware as control_hardware
 import function.face_depth_measure as face_depth_measure
 
+"""
+This is a demo of running face recognition on live video from the webcam. it includes some basic performance tweaks 
+to make things run a lot faster:
 
-# This is a demo of running face recognition on live video from the webcam. it includes some basic performance tweaks 
-# to make things run a lot faster:
+1. Process each video frame at 1/4 resolution (though still display it at full resolution)
+2. Only detect faces in every other frame of video.
 
-# 1. Process each video frame at 1/4 resolution (though still display it at full resolution)
-# 2. Only detect faces in every other frame of video.
+This code imports several libraries and defines variables that will be used in facial recognition, patrol mode, 
+and face-depth measurements. It then creates a loop that runs continuously, taking video frames from a webcam and 
+processing them.
 
-# This code imports several libraries and defines variables that will be used in facial recognition, patrol mode, 
-# and face-depth measurements. It then creates a loop that runs continuously, taking video frames from a webcam and 
-# processing them.
-
-# In the loop, the code measures the distance between the camera and the face to determine if it is close enough 
-# for facial recognition. It then enters patrol mode if the distance is between a certain range, using Haar cascades 
-# to detect faces and bodies in the video frame. If a face or body is detected, it starts recording video until the 
-# object moves out of the frame or after a set amount of time has passed since the detection. If no object is detected, 
-# the code stops recording after a delay.
-
+In the loop, the code measures the distance between the camera and the face to determine if it is close enough 
+for facial recognition. It then enters patrol mode if the distance is between a certain range, using Haar cascades 
+to detect faces and bodies in the video frame. If a face or body is detected, it starts recording video until the 
+object moves out of the frame or after a set amount of time has passed since the detection. If no object is detected, 
+the code stops recording after a delay.
+"""
 #---------------------
 # Initialize variables
 #---------------------

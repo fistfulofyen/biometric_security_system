@@ -2,7 +2,14 @@ import cv2
 import time
 import datetime
 
-#NOTE: this is the source code for patrol mode, 
+"""
+This is the source code for patrol mode.
+
+This script is designed to capture video frames from a webcam and initiate recording 
+when faces or bodies are detected using Haar cascades for face and body detection. 
+The script utilizes OpenCV and Python, providing a simple surveillance mechanism that 
+starts recording upon detecting movement and stops recording after a specified duration of no detection.
+"""
 
 def main():
     # Create a VideoCapture object for the default camera (0)
