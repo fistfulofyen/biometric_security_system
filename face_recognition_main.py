@@ -53,8 +53,8 @@ current_time = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
 # Critical Parameters 
 #-------------------------------------------------------
 DISTANCE_TO_FACE_RECOGNITION = 40 #cm
-DISTANCE_TO_NO_ACTION = 65 #cm
-DISTANCE_TO_PATROL_MODE = range(int(DISTANCE_TO_FACE_RECOGNITION+5), int(DISTANCE_TO_NO_ACTION-5)) 
+DISTANCE_TO_NO_ACTION = 90 #cm
+DISTANCE_TO_PATROL_MODE = range(int(DISTANCE_TO_FACE_RECOGNITION+10), int(DISTANCE_TO_NO_ACTION-10)) 
 
 ENHANCED_MODE = False # NOTE:set this parameter to True if you want to use both facial recognition and finger print reader. 
 
