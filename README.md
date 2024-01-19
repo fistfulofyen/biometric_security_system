@@ -184,14 +184,14 @@ _For more examples, please refer to the [Documentation](https://github.com/zhant
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] Facial recognition
-- [ ] Distance detection Surveillance Camera
-- [ ] AI voice assistant
-- [ ] Graphic User Interface
-- [ ] Hardware LED lights for statues indication
-- [ ] Step motor as door opener 
-- [ ] Finger print reader
-    - [ ] All Feature completed
+- [x] Facial recognition
+- [x] Distance detection Surveillance Camera
+- [x] AI voice assistant
+- [x] Graphic User Interface
+- [x] Hardware LED lights for statues indication
+- [x] Step motor as door opener 
+- [x] Finger print reader
+    - [x] All Feature completed
 
 See the [open issues](https://github.com/zhant22/biometric_security_system/issues) for a full list of proposed features (and known issues).
 
