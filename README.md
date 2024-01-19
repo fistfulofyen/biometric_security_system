@@ -31,7 +31,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/zhant22/biometric_security_system">
-    <img src="Supplementary/document/readme_pic/LOGO.png" alt="Logo" width="240" height="80">
+    <img src="Supplementary\readme_pic\LOGO.png" alt="Logo" width="240" height="80">
   </a>
 
 <h3 align="center">Biometric Security System</h3>
@@ -250,7 +250,7 @@ Project Link: [https://github.com/zhant22/biometric_security_system](https://git
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/linkedin_username
 
-[product-screenshot]: Supplementary\readme_pic\GUI.png
+[product-screenshot]: Supplementary/readme_pic/GUI.png
 
 [Dlib-url]: http://dlib.net/
 [CMake-url]: https://cmake.org/
