@@ -1,24 +1,27 @@
-------for window set up:
+-----------------
+for window set up
+-----------------
 
---------------------------------
----get the code to your local pc
--download git bash at: https://git-scm.com/downloads
--open git bash terminal choose the folder you want to store the code
--get the code from repo: $ git clone https://github.com/zhant22/biometric_security_system.git
--then go to VS code and install below module to run the script
-
+get the code to your local pc
+download git bash at: https://git-scm.com/downloads
+open git bash terminal choose the folder you want to store the code
+get the code from repo: $ git clone https://github.com/zhant22/biometric_security_system.git
+then go to VS code and install below module to run the script
+python 3.10 is recommended since some libraries are not ready for newer Python version 
 
 --------------------------------------------------
----set up the face recognition env for your pc first: 
+set up the face recognition env for your pc first: 
+--------------------------------------------------
 
 adding your python to your PC's path if you are using window, usually some where like this: 
-C:\Users\Administrator\AppData\Local\Programs\Python\Python39
-C:\Users\Administrator\AppData\Local\Programs\Python\Python39\Scripts
+-C:\Users\Administrator\AppData\Local\Programs\Python\Python39
+-C:\Users\Administrator\AppData\Local\Programs\Python\Python39\Scripts
 
--go to the website: https://github.com/ageitgey/face_recognition for more info or just follow below steps: 
+go to the website: https://github.com/ageitgey/face_recognition for more info or just follow below steps: 
 
---------------------------------------
----all package and library needed
+------------------------------
+All package and library needed
+------------------------------
 
 pip install CMake
 pip install dlib:
@@ -36,14 +39,15 @@ pip3 install spacy               #used to extract person name from user speech i
 pip3 install pyserial            #using python to control arduino board 
 python -m spacy download en_core_web_sm   #used to extract person name from user speech input
 
+------------------------------
+How to use git for the project 
+------------------------------
 
----------------------------------
----how to use git for the project: 
--goes to the folder you store the code of this project
--if you added a new file: $ git add .  (make sure the dot in the end, it means all)
--if only edit existed file: $ git commit -am "your message here" 
--push the code to repo: $ git push 
--getting updates from git : $git pull 
+go to the folder you store the code of this project
+if you added a new file: $ git add .  (make sure the dot in the end, it means all)
+if only edit existed file: $ git commit -am "your message here" 
+push the code to repo: $ git push 
+getting updates from git : $git pull 
 
 if there are any problem, watch this youtube video: https://www.youtube.com/watch?v=Lk6jCVAS3Iw
 
