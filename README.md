@@ -33,8 +33,7 @@
   <a href="https://github.com/zhant22/biometric_security_system">
     <img id="logo" src="Supplementary/readme_pic/LOGO.png" alt="Logo" width="240" height="80">
   </a>
-</div>
-
+  
 <script>
   // Check if dark mode is enabled
   const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
