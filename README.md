@@ -87,7 +87,7 @@
 
 This project aims to develop an advanced facial recognition system to address the growing security needs and technological challenges. The system will combine state-of-the-art facial recognition technology and advanced algorithms to provide outstanding performance and functionality, meeting the requirements of multiple application areas.
 
-Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following:  `twitter_handle`, `linkedin_username`, `email_client`, `email`, `project_title`, `project_description`
+<!--Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following:  `twitter_handle`, `linkedin_username`, `email_client`, `email`, `project_title`, `project_description`-->
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -110,17 +110,23 @@ Here's a blank template to get started: To avoid retyping too much info. Do a se
 <!-- GETTING STARTED -->
 ## Getting Started
 
-Installing all packages and modules in order to run this project. Some of these module installation is tricky; following this instruction. 
+Installing all packages and modules in order to run this project. Some of these module installation is tricky; following the instruction. 
 
 ### Prerequisites
+**Installing Dlib**
+Installing Dlib in Window is tricky so we have two options here: 
 
-Installing Dlib in Window is tricky, we have to download the file from third part, following this video for help:
+**Option one: Installing Dlib Manually**
+we have to download the file from third part, following this video for help:
+* help video: [https://www.youtube.com/watch?v=AUJKdehF2ZA&t=280s](https://www.youtube.com/watch?v=AUJKdehF2ZA&t=280s)
 
-help video: [https://www.youtube.com/watch?v=AUJKdehF2ZA&t=280s](https://www.youtube.com/watch?v=AUJKdehF2ZA&t=280s)
-* Installing face_recognition with prebuild dlib library
+**Option two: Installing face_recognition with prebuild dlib library**
+* Installing this forked face_recognition
   ```sh
   pip3 install face_recognition @ git+https://github.com/thetoby9944/face_recognition
   ```
+
+**Packages installation**
 
 Installing there following packages:
 * All modules required
