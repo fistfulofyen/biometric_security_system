@@ -140,23 +140,49 @@ def insert_friend_name(friend_name):
 
 def adding_new_person():
     global script_text  # Use the global variable script_text
+    
     # Open a file dialog for image selection
     file_path = filedialog.askopenfilename(filetypes=[("JPEG files", "*.jpg")])
 
     if file_path:
-        # Getting the name of the picture
-        the_name_of_the_pic = get_variable_name(file_path).upper()  # Convert to uppercase
-        # Getting the name of the picture with the first letter capitalized and the rest in lowercase
-        the_name_of_the_pic_cap = the_name_of_the_pic.capitalize()
+        # Create a new Tkinter window for user input
+        name_window = tk.Toplevel()
+        name_window.title("Enter Name")
+        
+        # Label and Entry for user to input the name
+        name_label = tk.Label(name_window, text="Enter the name:")
+        name_label.pack()
 
-        # Generate code for loading and encoding the image
-        code = f'{the_name_of_the_pic}_image = face_recognition.load_image_file("{file_path}")\n'
-        code += f'{the_name_of_the_pic}_face_encoding = face_recognition.face_encodings({the_name_of_the_pic}_image)[0]\n'
-        code += f'known_face_encodings.append({the_name_of_the_pic}_face_encoding)\n'
-        code += f'known_face_names.append("{the_name_of_the_pic_cap}")\n'
+        name_entry = tk.Entry(name_window)
+        name_entry.pack()
 
-        # Insert the generated code into the script_text
-        script_text.insert(tk.END, code)
+        def save_and_close():
+            # Getting the name entered by the user
+            user_entered_name = name_entry.get().strip()
+            
+            if user_entered_name:
+                # Convert to uppercase and capitalize
+                the_name_of_the_pic = user_entered_name.upper()
+                the_name_of_the_pic_cap = the_name_of_the_pic.capitalize()
+
+                # Generate code for loading and encoding the image
+                code = f'{the_name_of_the_pic}_image = face_recognition.load_image_file("{file_path}")\n'
+                code += f'{the_name_of_the_pic}_face_encoding = face_recognition.face_encodings({the_name_of_the_pic}_image)[0]\n'
+                code += f'known_face_encodings.append({the_name_of_the_pic}_face_encoding)\n'
+                code += f'known_face_names.append("{the_name_of_the_pic_cap}")\n'
+
+                # Insert the generated code into the script_text
+                script_text.insert(tk.END, code)
+
+                # Close the name input window
+                name_window.destroy()
+
+        # Button to save the name and close the window
+        save_button = tk.Button(name_window, text="Save", command=save_and_close)
+        save_button.pack()
+
+        # Make sure the user cannot close the name input window without entering a name
+        name_window.protocol("WM_DELETE_WINDOW", lambda: None)
 
 
 def get_variable_name(file_path):
