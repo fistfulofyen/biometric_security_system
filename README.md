@@ -114,13 +114,16 @@ Installing all packages and modules in order to run this project. Some of these 
 
 ### Prerequisites
 **Installing Dlib**
+
 Installing Dlib in Window is tricky so we have two options here: 
 
 **Option one: Installing Dlib Manually**
+
 we have to download the file from third part, following this video for help:
-* help video: [https://www.youtube.com/watch?v=AUJKdehF2ZA&t=280s](https://www.youtube.com/watch?v=AUJKdehF2ZA&t=280s)
+* [help video](https://www.youtube.com/watch?v=AUJKdehF2ZA&t)
 
 **Option two: Installing face_recognition with prebuild dlib library**
+
 * Installing this forked face_recognition
   ```sh
   pip3 install face_recognition @ git+https://github.com/thetoby9944/face_recognition
