@@ -96,7 +96,7 @@ This project aims to develop an advanced facial recognition system to address th
 ### Built With
 
 
-* [<img src="Supplementary\readme_pic\Dlib.png" width="50" height="20" alt="Dlib">][dlib-url]
+* [<img src="Supplementary\readme_pic\Dlib.png" width="40" height="20" alt="Dlib">][dlib-url]
 * [<img src="Supplementary\readme_pic\CMake.png" width="70" height="20" alt="CMake">][CMake-url]
 * [<img src="Supplementary\readme_pic\OpenCV.png" width="70" height="20" alt="OpenCV">][OpenCV-url]
 * [<img src="Supplementary\readme_pic\MediaPipe.png" width="70" height="20" alt="MediaPipe">][MediaPipe-url]
@@ -135,7 +135,7 @@ Installing there following packages:
 * All modules required
   ```sh
   pip3 install CMake
-  pip3 install face_recognition
+  pip3 install face_recognition             #ignore if you install this module from above step
   pip3 install opencv-python                #operating the webcam
   pip3 install SpeechRecognition            #convert your talk to text 
   pip3 install gtts                         #convert text to mp3 audio file 
@@ -158,7 +158,7 @@ Installing there following packages:
    ```
 3. Install **All** packages required
    ```sh
-   npm install
+   git install
    ```
 
 
