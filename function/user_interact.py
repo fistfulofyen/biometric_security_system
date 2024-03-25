@@ -6,6 +6,7 @@ import time
 import threading
 from playsound import playsound  # pip install playsound==1.2.2
 
+
 print("user_interact module - activate")
 
 """
@@ -83,4 +84,16 @@ def convert_to_audio(text):
 
 
 if __name__ == '__main__':
-    extract_name("hi,I am Dylan!")
+    import control_hardware as control_hardware
+
+    option = 1
+
+    if option == 1:
+        convert_to_audio("Hi, I am Darren")
+    elif option == 2:
+        convert_to_audio("your voice wave is recognized, the door will open")
+        control_hardware.open_the_door(1)
+    elif option == 3:
+        convert_to_audio("sorry, I can not recognize your voice")
+    else:
+        print("Invalid option")
