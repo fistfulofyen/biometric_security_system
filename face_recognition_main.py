@@ -80,6 +80,7 @@ user_interact.convert_to_audio("system active")
 detector = FaceMeshDetector(maxFaces=1)
 
 
+
 while True:
     #---------------------------------------------------------------------------------------------------------------
     # start checking if face is close enough for face recognition; printing out the distance between face and camera 
@@ -87,12 +88,12 @@ while True:
 
     distance_between_head_and_camera = face_depth_measure.get_distance(video_capture, detector, FOCAL_LENGTH_OF_YOUR_PC)
 
-    #--------------------------------------------------------------------------------------------
-    # Patrol mode starts here, if a person is in range of DISTANCE_TO_PATROL_MODE from the camera  
-    #--------------------------------------------------------------------------------------------
     
     ret, frame = video_capture.read() # Grab a single frame of video
 
+    #--------------------------------------------------------------------------------------------
+    # Patrol mode starts here, if a person is in range of DISTANCE_TO_PATROL_MODE from the camera  
+    #--------------------------------------------------------------------------------------------
     if DISTANCE_TO_PATROL_MODE.start <= distance_between_head_and_camera <= DISTANCE_TO_PATROL_MODE.stop-1:
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         faces = face_cascade.detectMultiScale(gray, 1.3, 5)
@@ -132,7 +133,7 @@ while True:
     #----------------------------------------------------------
     
     # Only process every other frame of video to save time
-    elif process_this_frame and distance_between_head_and_camera <= DISTANCE_TO_FACE_RECOGNITION:
+    elif process_this_frame and distance_between_head_and_camera <= DISTANCE_TO_FACE_RECOGNITION and distance_between_head_and_camera!=0:
         # Resize frame of video to 1/4 size for faster face recognition processing
         small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
 
