@@ -229,6 +229,8 @@ Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_
 
 Project Link: [https://github.com/zhant22/biometric_security_system](https://github.com/zhant22/biometric_security_system)
 
+Project video Link: [https://www.youtube.com/watch?v=gc4aTQci1kE&t](https://www.youtube.com/watch?v=gc4aTQci1kE&t)
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
