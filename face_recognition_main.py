@@ -18,10 +18,6 @@ to make things run a lot faster:
 1. Process each video frame at 1/4 resolution (though still display it at full resolution)
 2. Only detect faces in every other frame of video.
 
-This code imports several libraries and defines variables that will be used in facial recognition, patrol mode, 
-and face-depth measurements. It then creates a loop that runs continuously, taking video frames from a webcam and 
-processing them.
-
 In the loop, the code measures the distance between the camera and the face to determine if it is close enough 
 for facial recognition. It then enters patrol mode if the distance is between a certain range, using Haar cascades 
 to detect faces and bodies in the video frame. If a face or body is detected, it starts recording video until the 
